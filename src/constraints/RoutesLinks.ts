@@ -20,13 +20,13 @@ export const publicRoutes = [
 
 export const authRoutes = [
   {
-    path: "sign-in",
+    path: "signin",
     Component: SignIn,
     title: "Sign Up",
     icon: "📝",
   },
   {
-    path: "sign-up",
+    path: "signup",
     Component: SignUp,
     title: "Sign Up",
     icon: "📝",

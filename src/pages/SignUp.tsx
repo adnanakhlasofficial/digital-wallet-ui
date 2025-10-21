@@ -39,7 +39,7 @@ export default function SignUp() {
           <div className="text-sm text-center text-muted-foreground">
             Already have an account?{" "}
             <Button asChild variant="link" className="px-0">
-              <Link to="/sign-in">Sign In</Link>
+              <Link to="/signin">Sign In</Link>
             </Button>
           </div>
         </CardFooter>

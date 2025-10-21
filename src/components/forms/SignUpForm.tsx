@@ -131,7 +131,7 @@ export default function SignUpForm() {
       const res = await register(payload).unwrap();
       console.log(res);
       toast.success("Register success", { id: toastId });
-      navigate("/sign-in");
+      navigate("/signin");
     } catch (err) {
       console.error(err);
       toast.error("Something went wrong.", { id: toastId });
