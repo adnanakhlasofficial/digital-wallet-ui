@@ -12,9 +12,9 @@ export default function AppRoutes() {
         ))}
       </Route>
 
-      <Route path="/auth" element={<Auth />}>
+      <Route element={<Auth />}>
         {authRoutes.map(({ path, Component }, i) => (
-          <Route key={i} path={path} element={<div>OK</div>} />
+          <Route key={i} path={path} Component={Component} />
         ))}
       </Route>
 
