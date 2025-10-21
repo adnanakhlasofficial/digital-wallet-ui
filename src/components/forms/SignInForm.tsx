@@ -13,6 +13,9 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "../ui/button";
 import { Loader2Icon, LockIcon, LogInIcon, MailIcon } from "lucide-react";
+import { useLoginMutation } from "@/redux/features/auth/auth.api";
+import { toast } from "sonner";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const signInSchema = z.object({
   email: z.email("Please enter a valid email address"),
@@ -22,6 +25,10 @@ const signInSchema = z.object({
 type SignInFormData = z.infer<typeof signInSchema>;
 
 export default function SignInForm() {
+  const [login] = useLoginMutation();
+  const navigate = useNavigate();
+  const { state } = useLocation();
+
   const form = useForm<SignInFormData>({
     resolver: zodResolver(signInSchema),
     defaultValues: {
@@ -31,9 +38,15 @@ export default function SignInForm() {
   });
 
   const onSubmit = async (values: SignInFormData) => {
+    const toastId = toast.loading("Logging In...");
     try {
-      console.log("Sign-in data:", values);
+      await login(values);
+      setTimeout(() => {
+        toast.success("Login success", { id: toastId });
+        navigate((state === "/register" ? "/login" : state) || "/");
+      }, 2000);
     } catch (err) {
+      toast.error("Failed to login", { id: toastId });
       console.error(err);
     }
   };

@@ -32,14 +32,20 @@ import {
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { Calendar } from "@/components/ui/calendar"; // ShadCN calendar
+import { Calendar } from "@/components/ui/calendar";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { uploadImage } from "@/lib/cloudinary";
+import { useRegisterMutation } from "@/redux/features/auth/auth.api";
 import { format } from "date-fns";
-import { Label } from "../ui/label";
+import type { DropdownNavProps, DropdownProps } from "react-day-picker";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
+
+const userRoles = ["Admin", "User", "Agent"];
 
 const signUpSchema = z.object({
   name: z.string().min(3, "Name must be at least 3 characters"),
@@ -52,8 +58,14 @@ const signUpSchema = z.object({
     .string()
     .length(5, { message: "PIN must be exactly 5 digits" })
     .regex(/^\d+$/, { message: "PIN must contain only numbers" }),
-  role: z.enum(["admin", "user"], { message: "Select a role" }),
-  profilePicture: z.instanceof(FileList).optional(),
+  role: z.enum(userRoles, { message: "Select a role" }),
+  profilePicture: z
+    .any()
+    .optional()
+    .refine(
+      (val) => !val || val instanceof File || typeof val === "string",
+      "Invalid file format"
+    ),
   nid: z
     .string()
     .length(10, { message: "NID must be exactly 10 digits long" })
@@ -65,6 +77,9 @@ const signUpSchema = z.object({
 type CreateUserFormData = z.infer<typeof signUpSchema>;
 
 export default function SignUpForm() {
+  const navigate = useNavigate();
+  const [register] = useRegisterMutation();
+
   const form = useForm<CreateUserFormData>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
@@ -72,23 +87,54 @@ export default function SignUpForm() {
       email: "",
       phone: "",
       password: "",
-      role: "user",
+      profilePicture: null,
+      role: "User",
       nid: "",
       address: "",
-      dateOfBirth: new Date(),
+      dateOfBirth: undefined,
     },
   });
 
-  const onSubmit = async (data: CreateUserFormData) => {
+  const handleCalendarChange = (
+    _value: string | number,
+    _e: React.ChangeEventHandler<HTMLSelectElement>
+  ) => {
+    const _event = {
+      target: {
+        value: String(_value),
+      },
+    } as React.ChangeEvent<HTMLSelectElement>;
+    _e(_event);
+  };
+
+  const onSubmit = async (values: CreateUserFormData) => {
+    const payload = {
+      ...values,
+      dateOfBirth: values.dateOfBirth.toISOString().split("T")[0],
+    };
+    if (values.profilePicture) {
+      const toastId = toast.loading("Image uploading...");
+
+      const res = await uploadImage(values.profilePicture as File);
+      toast.success("Image upload successfully.", { id: toastId });
+      payload.profilePicture = res as string;
+    } else {
+      delete payload.profilePicture;
+    }
+    if (!values.address) {
+      delete payload.address;
+    }
+
+    console.log(payload);
+    const toastId = toast.loading("Registering...");
     try {
-      console.log("User Data:", {
-        ...data,
-        profilePicture: data.profilePicture?.[0] || null,
-      });
-      // ✅ send to backend API
-      // await axios.post("/api/users", data)
+      const res = await register(payload).unwrap();
+      console.log(res);
+      toast.success("Register success", { id: toastId });
+      navigate("/sign-in");
     } catch (err) {
       console.error(err);
+      toast.error("Something went wrong.", { id: toastId });
     }
   };
 
@@ -105,7 +151,9 @@ export default function SignUpForm() {
             name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Name</FormLabel>
+                <FormLabel>
+                  Name <span className="text-destructive">*</span>
+                </FormLabel>
                 <FormControl>
                   <div className="relative">
                     <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -127,7 +175,9 @@ export default function SignUpForm() {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email</FormLabel>
+                <FormLabel>
+                  Email <span className="text-destructive">*</span>
+                </FormLabel>
                 <FormControl>
                   <div className="relative">
                     <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -150,7 +200,9 @@ export default function SignUpForm() {
             name="phone"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Phone</FormLabel>
+                <FormLabel>
+                  Phone <span className="text-destructive">*</span>
+                </FormLabel>
                 <FormControl>
                   <div className="relative">
                     <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -172,7 +224,9 @@ export default function SignUpForm() {
             name="password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>PIN (5-digit)</FormLabel>
+                <FormLabel>
+                  PIN (5-digit) <span className="text-destructive">*</span>
+                </FormLabel>
                 <FormControl>
                   <div className="relative">
                     <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -202,16 +256,19 @@ export default function SignUpForm() {
             control={form.control}
             name="role"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="sr-only">
                 <FormLabel>Role</FormLabel>
                 <FormControl>
                   <Select onValueChange={field.onChange} value={field.value}>
                     <SelectTrigger className="h-11 w-full">
                       <SelectValue placeholder="Select role" />
                     </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="user">User</SelectItem>
-                      <SelectItem value="admin">Admin</SelectItem>
+                    <SelectContent defaultValue={"User"}>
+                      {userRoles.map((role) => (
+                        <SelectItem key={role} value={role}>
+                          {role}
+                        </SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
                 </FormControl>
@@ -226,7 +283,9 @@ export default function SignUpForm() {
             name="nid"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>NID</FormLabel>
+                <FormLabel>
+                  NID <span className="text-destructive">*</span>
+                </FormLabel>
                 <FormControl>
                   <div className="relative">
                     <IdCard className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -251,14 +310,29 @@ export default function SignUpForm() {
           />
 
           {/* Profile Picture */}
-          <div className="grid w-full max-w-sm items-center gap-1.5">
-            <Label htmlFor="picture">Picture</Label>
-            <Input
-              className="file:text-muted-foreground text-muted-foreground"
-              id="picture"
-              type="file"
-            />
-          </div>
+          <FormField
+            control={form.control}
+            name="profilePicture"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel htmlFor="profile">Profile Image URL</FormLabel>
+                <FormControl>
+                  <Input
+                    id="profile"
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (file) {
+                        field.onChange(file);
+                      }
+                    }}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
           {/* Date of Birth */}
           <div>
@@ -267,7 +341,9 @@ export default function SignUpForm() {
               name="dateOfBirth"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Date of Birth</FormLabel>
+                  <FormLabel>
+                    Date of Birth <span className="text-destructive">*</span>
+                  </FormLabel>
                   <FormControl>
                     <Popover>
                       <PopoverTrigger className="justify-start" asChild>
@@ -284,8 +360,55 @@ export default function SignUpForm() {
                       <PopoverContent className="w-auto p-0">
                         <Calendar
                           mode="single"
-                          selected={field.value} // <-- bind to form value
-                          onSelect={(date) => field.onChange(date)} // <-- update form value
+                          selected={field.value}
+                          onSelect={(data) => field.onChange(data)}
+                          className="rounded-md border p-2"
+                          classNames={{
+                            month_caption: "mx-0",
+                          }}
+                          captionLayout="dropdown"
+                          defaultMonth={new Date()}
+                          startMonth={new Date(1980, 6)}
+                          hideNavigation
+                          components={{
+                            DropdownNav: (props: DropdownNavProps) => {
+                              return (
+                                <div className="flex w-full items-center gap-2">
+                                  {props.children}
+                                </div>
+                              );
+                            },
+                            Dropdown: (props: DropdownProps) => {
+                              return (
+                                <Select
+                                  value={String(props.value)}
+                                  onValueChange={(value) => {
+                                    if (props.onChange) {
+                                      handleCalendarChange(
+                                        value,
+                                        props.onChange
+                                      );
+                                    }
+                                  }}
+                                >
+                                  <SelectTrigger className="h-8 w-fit font-medium first:grow">
+                                    <SelectValue />
+                                  </SelectTrigger>
+                                  <SelectContent className="max-h-[min(26rem,var(--radix-select-content-available-height))]">
+                                    {props.options?.map((option) => (
+                                      <SelectItem
+                                        key={option.value}
+                                        value={String(option.value)}
+                                        disabled={option.disabled}
+                                      >
+                                        {option.label}
+                                      </SelectItem>
+                                    ))}
+                                  </SelectContent>
+                                </Select>
+                              );
+                            },
+                          }}
                         />
                       </PopoverContent>
                     </Popover>
@@ -296,7 +419,7 @@ export default function SignUpForm() {
             />
           </div>
           {/* Address */}
-          <div className="md:col-span-2">
+          <div>
             <FormField
               control={form.control}
               name="address"
