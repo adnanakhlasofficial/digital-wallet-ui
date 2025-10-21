@@ -3,6 +3,7 @@ import { authRoutes, publicRoutes } from "../constraints/RoutesLinks";
 import Auth from "../layouts/Auth";
 import Public from "../layouts/Public";
 import { Toaster } from "@/components/ui/sonner";
+import NotFound from "@/pages/NotFound";
 
 export default function AppRoutes() {
   return (
@@ -23,7 +24,7 @@ export default function AppRoutes() {
         </Route>
 
         {/* Catch-all route */}
-        <Route path="*" element={<div>Page not found</div>} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
 
       {/* Toaster */}
