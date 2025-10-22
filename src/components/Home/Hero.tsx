@@ -23,7 +23,7 @@ export default function Hero() {
         </div>
 
         {/* Heading */}
-        <h1 className="text-5xl sm:text-6xl font-bold mb-6 bg-linear-to-r from-primary via-secondary to-accent bg-clip-text text-transparent leading-tight">
+        <h1 className="text-5xl sm:text-6xl font-bold mb-6 text-primary leading-tight drop-shadow-lg">
           Mobile Banking
           <br />
           At Your Fingertips

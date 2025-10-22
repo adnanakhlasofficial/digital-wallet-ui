@@ -9,17 +9,15 @@ import Testimonials from "@/components/Home/Testimonials";
 
 export default function Home() {
   return (
-    <div className="space-y-20 md:space-y-32">
-      <div className="space-y-20 md:space-y-32">
-        <Hero />
-        <Features />
-        <Pricing />
-        <Security />
-        <Stats />
-        <FAQ />
-        <Testimonials />
-        <CTA />
-      </div>
-    </div>
+    <>
+      <Hero />
+      <Features />
+      <Pricing />
+      <Security />
+      <Stats />
+      <FAQ />
+      <Testimonials />
+      <CTA />
+    </>
   );
 }

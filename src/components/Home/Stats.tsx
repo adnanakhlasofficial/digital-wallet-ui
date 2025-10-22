@@ -1,4 +1,5 @@
 import CountUp from "react-countup";
+import { Card, CardContent } from "../ui/card";
 
 const stats = [
   { value: 500, label: "Active Users", suffix: "M+" },
@@ -9,28 +10,28 @@ const stats = [
 
 export default function Stats() {
   return (
-    <section className="bg-card/40 py-10 border-y-2 text-primary-foreground">
+    <section className="bg-secondary py-10 border-y-2 text-primary-foreground">
       <div className="container mx-auto px-4">
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
           {stats.map((stat, index) => (
-            <div
+            <Card
               key={index}
-              className="rounded-2xl p-8 text-center shadow-md hover:shadow-lg transition-shadow bg-primary"
+              className="rounded-2xl shadow-md hover:shadow-lg transition-shadow"
             >
-              <div className="mb-2 text-4xl font-bold md:text-5xl">
-                <CountUp
-                  start={0}
-                  end={stat.value}
-                  duration={2.5}
-                  separator=","
-                  decimals={stat.value % 1 !== 0 ? 1 : 0}
-                />
-                {stat.suffix}
-              </div>
-              <div className="text-sm opacity-90 md:text-base">
-                {stat.label}
-              </div>
-            </div>
+              <CardContent className="p-8 text-center">
+                <div className="mb-2 text-4xl font-bold md:text-5xl text-primary ">
+                  <CountUp
+                    start={0}
+                    end={stat.value}
+                    duration={2.5}
+                    separator=","
+                    decimals={stat.value % 1 !== 0 ? 1 : 0}
+                  />
+                  {stat.suffix}
+                </div>
+                <div className="text-sm opacity-90">{stat.label}</div>
+              </CardContent>
+            </Card>
           ))}
         </div>
       </div>

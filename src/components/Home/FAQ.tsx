@@ -1,40 +1,34 @@
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+import { Lock, ShieldCheck, Smartphone, Zap } from "lucide-react";
+import SharedAccordion from "../shared/SharedAccordion";
 
-const faqs = [
+const items = [
   {
-    question: "How do I open an account?",
-    answer:
-      "Opening an account takes just 5 minutes. Download our app, provide your basic information, verify your identity, and you're ready to start banking. No minimum deposit required.",
+    id: "1",
+    icon: Smartphone,
+    title: "What makes our mobile banking app unique?",
+    content:
+      "Our app combines seamless performance with a user-friendly interface, giving you instant access to your finances anywhere, anytime. Built for speed, security, and simplicity.",
   },
   {
-    question: "Are there any fees?",
-    answer:
-      "Our Basic account is completely free with no monthly maintenance fees. Premium and Business plans have transparent monthly fees with no hidden charges. We never charge overdraft fees.",
+    id: "2",
+    icon: ShieldCheck,
+    title: "How secure is my personal information?",
+    content:
+      "We use advanced encryption, multi-factor authentication, and real-time fraud detection to ensure your data and transactions are fully protected.",
   },
   {
-    question: "How secure is my money?",
-    answer:
-      "Your deposits are FDIC insured up to $250,000. We use bank-level 256-bit encryption, biometric authentication, and 24/7 fraud monitoring to keep your account secure.",
+    id: "3",
+    icon: Zap,
+    title: "Is the app optimized for performance?",
+    content:
+      "Yes. Our mobile banking platform is built with performance in mind — fast loading times, smooth navigation, and minimal battery usage across all devices.",
   },
   {
-    question: "Can I use my card internationally?",
-    answer:
-      "Yes! Our cards work worldwide. Basic account holders pay standard international fees, while Premium members enjoy zero fees at any ATM globally.",
-  },
-  {
-    question: "How fast are transfers?",
-    answer:
-      "Transfers between our users are instant. External transfers typically complete within 1-2 business days. Premium members get priority processing on all transactions.",
-  },
-  {
-    question: "What if I need help?",
-    answer:
-      "Our customer support team is available 24/7 via in-app chat, phone, and email. Premium and Business members get priority support with faster response times.",
+    id: "4",
+    icon: Lock,
+    title: "Can I access my account safely on any device?",
+    content:
+      "Absolutely. Whether you’re using a phone, tablet, or desktop, your session is secured end-to-end with encrypted connections and automatic session timeout.",
   },
 ];
 
@@ -54,7 +48,8 @@ export default function FAQ() {
 
         {/* Accordion */}
         <div className="mx-auto max-w-3xl">
-          <Accordion type="single" collapsible className="w-full space-y-4">
+          <SharedAccordion items={items} />
+          {/* <Accordion type="single" collapsible className="w-full space-y-4">
             {faqs.map((faq, index) => (
               <AccordionItem
                 key={index}
@@ -69,7 +64,7 @@ export default function FAQ() {
                 </AccordionContent>
               </AccordionItem>
             ))}
-          </Accordion>
+          </Accordion> */}
         </div>
       </div>
     </section>
