@@ -83,14 +83,12 @@ export default function UserMenu({ user }: IProps) {
 
         <DropdownMenuSeparator />
 
-        <DropdownMenuItem>
-          <button
-            className="flex items-center gap-2 w-full text-left"
-            onClick={handleLogout}
-          >
-            <LogOutIcon size={16} className="opacity-60" aria-hidden="true" />
-            <span>Logout</span>
-          </button>
+        <DropdownMenuItem
+          className="flex items-center gap-2 w-full text-left"
+          onClick={handleLogout}
+        >
+          <LogOutIcon size={16} className="opacity-60" aria-hidden="true" />
+          <span>Logout</span>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
