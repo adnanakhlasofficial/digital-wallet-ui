@@ -22,9 +22,7 @@ import { Spinner } from "@/components/ui/spinner";
 export default function Navbar() {
   const [navStatus, setNavStatus] = useState<boolean>(false);
   const { pathname } = useLocation();
-  const { data, isLoading } = useUserMeQuery({});
-
-  const user = data?.data;
+  const { data: user, isLoading } = useUserMeQuery({});
 
   return (
     <header className="border-b px-4 md:px-6">

@@ -1,7 +1,10 @@
-export interface IWallet {
+type TWalletStatus = "Active" | "Blocked" | "Suspended";
+type TUserStatus = "Admin" | "User" | "Agent";
+
+export interface IUserWallet {
   balance: number;
   email: string;
-  status: "Active" | "Blocked" | "Suspended";
+  status: TWalletStatus;
 }
 
 export interface IUser {
@@ -10,12 +13,23 @@ export interface IUser {
   email: string;
   phone: string;
   password: string;
-  role: "Admin" | "User" | "Agent";
+  role: TUserStatus;
   profilePicture: string | null;
   nid: string;
   dateOfBirth: Date;
   isVerified: boolean;
   createdAt: Date;
   updatedAt: Date;
-  wallet: IWallet;
+  wallet: IUserWallet;
+}
+
+export interface IWallet {
+  balance: number;
+  email: string;
+  phone: string;
+  status: TWalletStatus;
+  createdAt: string;
+  updatedAt: string;
+  name: string;
+  role: TUserStatus;
 }

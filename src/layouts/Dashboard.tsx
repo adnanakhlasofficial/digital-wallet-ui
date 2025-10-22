@@ -19,11 +19,10 @@ import { Navigate, Outlet, useLocation } from "react-router-dom";
 
 export default function Dashboard() {
   const { pathname } = useLocation();
-  const { data, isLoading } = useUserMeQuery({});
+  const { data: user, isLoading } = useUserMeQuery({});
 
   if (isLoading) return <LoadingMotion />;
 
-  const user = data?.data;
   if (!user) return <Navigate to={"/signin"} state={pathname} />;
 
   return (

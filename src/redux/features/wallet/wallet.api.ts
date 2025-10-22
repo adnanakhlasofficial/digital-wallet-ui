@@ -6,16 +6,19 @@ export const walletApi = baseApi.injectEndpoints({
       query: () => ({
         url: "/wallet/all",
       }),
+      transformResponse: (response) => response.data,
     }),
     getSingleWallet: builder.query({
       query: ({ phone }) => ({
         url: `/wallet/${phone}`,
       }),
+      transformResponse: (response) => response.data,
     }),
     getWalletMe: builder.query({
       query: () => ({
         url: "/wallet/me",
       }),
+      transformResponse: (response) => response.data,
     }),
   }),
 });
