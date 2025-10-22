@@ -32,4 +32,5 @@ export interface IWallet {
   updatedAt: string;
   name: string;
   role: TUserStatus;
+  nid: string;
 }

@@ -1,6 +1,5 @@
+import { Facebook, Github, Linkedin, Twitter } from "lucide-react";
 import { Link } from "react-router-dom";
-import { Github, Facebook, Twitter, Linkedin } from "lucide-react";
-import Logo from "./Logo";
 import { Separator } from "../ui/separator";
 
 export default function Footer() {
@@ -8,7 +7,7 @@ export default function Footer() {
     <div className="mx-auto  flex flex-col gap-4 md:gap-6">
       {/* top section */}
       <div className="flex flex-col md:flex-row md:justify-between md:items-center space-y-8 md:space-y-0 max-w-7xl px-6 md:px-12">
-        <Logo />
+        {/* <Logo /> */}
 
         <nav className="flex flex-wrap justify-center md:justify-end space-x-6">
           <Link

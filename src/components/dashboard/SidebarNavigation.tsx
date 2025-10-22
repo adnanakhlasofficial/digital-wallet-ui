@@ -43,7 +43,10 @@ export default function SidebarNavigation() {
                     {items.map((subItem) => {
                       const isActive = location.pathname === subItem.url;
                       return (
-                        <SidebarMenuSubItem key={subItem.title}>
+                        <SidebarMenuSubItem
+                          className={!subItem.show ? "hidden" : ""}
+                          key={subItem.title}
+                        >
                           <SidebarMenuSubButton asChild isActive={isActive}>
                             <Link to={subItem.url}>
                               <span>{subItem.title}</span>

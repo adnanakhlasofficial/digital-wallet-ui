@@ -5,6 +5,7 @@ import CashIn from "@/pages/dashboard/CashIn";
 import CashOut from "@/pages/dashboard/CashOut";
 import MyTransactions from "@/pages/dashboard/MyTransactions";
 import SendMoney from "@/pages/dashboard/SendMoney";
+import WalletDetails from "@/pages/dashboard/WalletDetails/WalletDetails";
 import {
   CreditCard,
   History,
@@ -18,6 +19,7 @@ interface SidebarSubItem {
   title: string;
   url: string;
   Component: ComponentType;
+  show?: boolean;
 }
 
 interface SidebarItem {
@@ -34,6 +36,7 @@ export const sidebarItems: SidebarItem[] = [
         title: "All Users",
         url: "/dashboard/users",
         Component: AllUsers,
+        show: true,
       },
     ],
   },
@@ -45,6 +48,13 @@ export const sidebarItems: SidebarItem[] = [
         title: "All Wallets",
         url: "/dashboard/wallets",
         Component: AllWallets,
+        show: true,
+      },
+      {
+        title: "Wallet Details",
+        url: "/dashboard/wallets/:phone",
+        Component: WalletDetails,
+        show: false,
       },
     ],
   },
@@ -56,11 +66,13 @@ export const sidebarItems: SidebarItem[] = [
         title: "All Transaction History",
         url: "/dashboard/transactions",
         Component: AllTransactions,
+        show: true,
       },
       {
         title: "My Transaction History",
         url: "/dashboard/my-transactions",
         Component: MyTransactions,
+        show: true,
       },
     ],
   },
@@ -72,9 +84,20 @@ export const sidebarItems: SidebarItem[] = [
         title: "Send Money",
         url: "/dashboard/send-money",
         Component: SendMoney,
+        show: true,
       },
-      { title: "Cash In", url: "/dashboard/cash-in", Component: CashIn },
-      { title: "Cash Out", url: "/dashboard/cash-out", Component: CashOut },
+      {
+        title: "Cash In",
+        url: "/dashboard/cash-in",
+        Component: CashIn,
+        show: true,
+      },
+      {
+        title: "Cash Out",
+        url: "/dashboard/cash-out",
+        Component: CashOut,
+        show: true,
+      },
     ],
   },
 ];

@@ -11,18 +11,23 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { publicRoutes } from "@/constraints/RoutesLinks";
-import { Link, useLocation } from "react-router-dom";
-import Logo from "../Logo";
-import ThemeToggle from "./ThemeToggle";
-import { useState } from "react";
-import { useUserMeQuery } from "@/redux/features/auth/auth.api";
 import { Spinner } from "@/components/ui/spinner";
+import { publicRoutes } from "@/constraints/RoutesLinks";
+import { cn } from "@/lib/utils";
+import { useUserMeQuery } from "@/redux/features/auth/auth.api";
+import { useAppSelector } from "@/redux/hook";
+import { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { DarkLogo, LightLogo } from "../Logo";
+import ThemeToggle from "./ThemeToggle";
 
 export default function Navbar() {
+  const theme = useAppSelector((state) => state.theme.mode);
   const [navStatus, setNavStatus] = useState<boolean>(false);
   const { pathname } = useLocation();
   const { data: user, isLoading } = useUserMeQuery({});
+
+  console.log(theme);
 
   return (
     <header className="border-b px-4 md:px-6">
@@ -99,8 +104,14 @@ export default function Navbar() {
           </Popover>
           <div className="flex items-center gap-6">
             {/* Logo */}
-            <Link to="#" className="text-primary hover:text-primary/90">
-              <Logo />
+            <Link to="/" className="text-primary hover:text-primary/90">
+              <span className={cn(theme === "dark" ? "block" : "hidden")}>
+                <DarkLogo />
+              </span>
+
+              <span className={cn(theme === "light" ? "block" : "hidden")}>
+                <LightLogo />
+              </span>
             </Link>
             {/* Desktop navigation - icon only */}
             <NavigationMenu className="hidden md:flex">

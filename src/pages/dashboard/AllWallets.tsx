@@ -36,7 +36,7 @@ export default function AllWallets() {
   return (
     <Card className="w-full border border-border shadow-md bg-card">
       <CardHeader className="border-b border-border bg-muted/50">
-        <div className="flex items-center gap-3">
+        <div className="flex items-start gap-3">
           <div className="p-2.5 rounded-lg bg-primary/10 shadow-sm">
             <Wallet className="h-5 w-5 text-primary" />
           </div>
