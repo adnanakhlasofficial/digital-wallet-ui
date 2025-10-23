@@ -5,7 +5,7 @@ import { motion } from "motion/react";
 
 export default function Hero() {
   return (
-    <section className="relative flex items-center justify-center overflow-hidden bg-linear-to-br from-background via-secondary/10 to-background py-20 sm:py-28">
+    <section className="relative flex items-center justify-center overflow-hidden bg-linear-to-br from-background via-secondary/10 to-background py-14">
       {/* Decorative glowing gradients */}
       <div className="absolute top-1/4 left-1/3 w-72 h-72 bg-primary/30 rounded-full blur-3xl animate-pulse opacity-70" />
       <div

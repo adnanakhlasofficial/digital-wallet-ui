@@ -1,5 +1,5 @@
 import CountUp from "react-countup";
-import { Card, CardContent } from "../ui/card";
+import { Card, CardContent } from "../../../components/ui/card";
 import { motion } from "motion/react";
 
 const stats = [

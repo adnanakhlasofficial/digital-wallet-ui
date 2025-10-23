@@ -11,7 +11,7 @@ export default function Public() {
       <main className="space-y-20 grow">
         <Outlet />
       </main>
-      <footer className="bg-background border-t border-border py-10 mt-20 ">
+      <footer className="bg-background border-t border-border py-10">
         <Footer />
       </footer>
     </div>

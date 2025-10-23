@@ -186,4 +186,7 @@
     @apply bg-background text-foreground;
     font-family: "Space Grotesk", sans-serif;
   }
+  main > :last-child {
+    @apply mb-20;
+  }
 }

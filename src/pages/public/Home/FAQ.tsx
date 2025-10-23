@@ -1,5 +1,5 @@
 import { Lock, ShieldCheck, Smartphone, Zap } from "lucide-react";
-import SharedAccordion from "../shared/SharedAccordion";
+import SharedAccordion from "../../../components/shared/SharedAccordion";
 
 const items = [
   {

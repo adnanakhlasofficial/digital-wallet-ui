@@ -6,14 +6,15 @@ import {
   PhoneIcon,
   SparklesIcon,
 } from "lucide-react";
-import About from "../pages/public/About";
-import Home from "../pages/public/Home";
+
+import Home from "../pages/public/Home/Home";
 import SignIn from "../pages/auth/SignIn";
 import SignUp from "../pages/auth/SignUp";
 import Features from "@/pages/public/Features";
 import Contact from "@/pages/public/Contact";
 import FAQ from "@/pages/public/FAQ";
 import Pricing from "@/pages/public/Pricing";
+import About from "@/pages/public/About/About";
 
 export const publicRoutes = [
   {
