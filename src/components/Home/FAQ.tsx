@@ -34,7 +34,7 @@ const items = [
 
 export default function FAQ() {
   return (
-    <section className="bg-background">
+    <section className="bg-background py-20">
       <div className="container mx-auto px-4">
         {/* Heading */}
         <div className="mb-12 text-center">
@@ -49,22 +49,6 @@ export default function FAQ() {
         {/* Accordion */}
         <div className="mx-auto max-w-3xl">
           <SharedAccordion items={items} />
-          {/* <Accordion type="single" collapsible className="w-full space-y-4">
-            {faqs.map((faq, index) => (
-              <AccordionItem
-                key={index}
-                value={`item-${index}`}
-                className="border-2 rounded-2xl transition-all hover:border-primary bg-primary/5 "
-              >
-                <AccordionTrigger className="text-left text-lg font-semibold p-4 md:p-6">
-                  {faq.question}
-                </AccordionTrigger>
-                <AccordionContent className="text-muted-foreground px-4 md:px-6 ">
-                  {faq.answer}
-                </AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion> */}
         </div>
       </div>
     </section>

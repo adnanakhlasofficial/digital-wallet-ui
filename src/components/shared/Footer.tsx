@@ -1,56 +1,75 @@
 import { Facebook, Github, Linkedin, Twitter } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Separator } from "../ui/separator";
+import { DarkLogo, LightLogo } from "../shared/Logo";
+import { useAppSelector } from "@/redux/hook";
+import { cn } from "@/lib/utils";
 
 export default function Footer() {
-  return (
-    <div className="mx-auto  flex flex-col gap-4 md:gap-6">
-      {/* top section */}
-      <div className="flex flex-col md:flex-row md:justify-between md:items-center space-y-8 md:space-y-0 max-w-7xl px-6 md:px-12">
-        {/* <Logo /> */}
+  const theme = useAppSelector((state) => state.theme.mode);
 
-        <nav className="flex flex-wrap justify-center md:justify-end space-x-6">
+  return (
+    <div className="container mx-auto max-w-7xl px-6 md:px-12 flex flex-col gap-10">
+      {/* Top Section: Logo + Links */}
+      <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-8 md:gap-0">
+        {/* Logo */}
+        <Link to="/" className="flex items-center gap-2">
+          <span className={cn(theme === "dark" ? "block" : "hidden")}>
+            <DarkLogo className="w-60" />
+          </span>
+          <span className={cn(theme === "light" ? "block" : "hidden")}>
+            <LightLogo className="w-60" />
+          </span>
+        </Link>
+
+        {/* Navigation */}
+        <nav className="flex flex-wrap justify-center md:justify-end gap-6 text-muted-foreground">
           <Link
             to="/about"
-            className="text-muted-foreground hover:text-primary transition-colors"
+            className="hover:text-primary transition-colors font-medium"
           >
             About
           </Link>
           <Link
             to="/services"
-            className="text-muted-foreground hover:text-primary transition-colors"
+            className="hover:text-primary transition-colors font-medium"
           >
             Services
           </Link>
           <Link
             to="/pricing"
-            className="text-muted-foreground hover:text-primary transition-colors"
+            className="hover:text-primary transition-colors font-medium"
           >
             Pricing
           </Link>
           <Link
             to="/contact"
-            className="text-muted-foreground hover:text-primary transition-colors"
+            className="hover:text-primary transition-colors font-medium"
           >
             Contact
+          </Link>
+          <Link
+            to="/faq"
+            className="hover:text-primary transition-colors font-medium"
+          >
+            FAQ
           </Link>
         </nav>
       </div>
 
       <Separator />
 
-      {/* bottom section */}
-      <div className="flex flex-col sm:flex-row justify-between items-center   space-y-4 sm:space-y-0 px-6 md:px-12">
-        <p className="text-sm text-muted-foreground">
-          © {new Date().getFullYear()} Digital Wallet. All rights reserved.
-        </p>
+      {/* Bottom Section: Copyright + Socials */}
+      <div className="flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-0 text-sm text-muted-foreground">
+        <p>© {new Date().getFullYear()} Digital Wallet. All rights reserved.</p>
 
-        <div className="flex space-x-5 text-muted-foreground">
+        <div className="flex items-center gap-5">
           <a
             href="https://github.com/"
             target="_blank"
             rel="noopener noreferrer"
             className="hover:text-primary transition-colors"
+            aria-label="GitHub"
           >
             <Github className="w-5 h-5" />
           </a>
@@ -59,6 +78,7 @@ export default function Footer() {
             target="_blank"
             rel="noopener noreferrer"
             className="hover:text-primary transition-colors"
+            aria-label="Facebook"
           >
             <Facebook className="w-5 h-5" />
           </a>
@@ -67,6 +87,7 @@ export default function Footer() {
             target="_blank"
             rel="noopener noreferrer"
             className="hover:text-primary transition-colors"
+            aria-label="Twitter"
           >
             <Twitter className="w-5 h-5" />
           </a>
@@ -75,6 +96,7 @@ export default function Footer() {
             target="_blank"
             rel="noopener noreferrer"
             className="hover:text-primary transition-colors"
+            aria-label="LinkedIn"
           >
             <Linkedin className="w-5 h-5" />
           </a>

@@ -1,8 +1,11 @@
-export function DarkLogo() {
+interface IProps {
+  className?: string;
+}
+
+export function DarkLogo({ className }: IProps) {
   return (
     <svg
-      width="120"
-      height="15"
+      className={className}
       viewBox="0 0 120 15"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -66,11 +69,10 @@ export function DarkLogo() {
   );
 }
 
-export function LightLogo() {
+export function LightLogo({ className }: IProps) {
   return (
     <svg
-      width="120"
-      height="15"
+      className={className}
       viewBox="0 0 120 15"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -134,11 +136,10 @@ export function LightLogo() {
   );
 }
 
-export function DarkIcon() {
+export function DarkIcon({ className }: IProps) {
   return (
     <svg
-      width="34"
-      height="15"
+      className={className}
       viewBox="0 0 34 15"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -198,11 +199,10 @@ export function DarkIcon() {
   );
 }
 
-export function LightIcon() {
+export function LightIcon({ className }: IProps) {
   return (
     <svg
-      width="34"
-      height="15"
+      className={className}
       viewBox="0 0 34 15"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

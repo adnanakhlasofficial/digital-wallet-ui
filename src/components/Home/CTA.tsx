@@ -4,16 +4,16 @@ import { ArrowRight } from "lucide-react";
 
 export default function CTA() {
   return (
-    <section className="bg-background">
+    <section className="bg-background py-24">
       <div className="container mx-auto px-4">
-        <div className="mx-auto rounded-3xl bg-card p-10 md:p-16 shadow-lg text-center text-card-foreground">
+        <div className="mx-auto max-w-3xl rounded-3xl bg-card p-10 md:p-16 shadow-xl text-center text-card-foreground">
           {/* Heading */}
           <h2 className="mb-6 text-3xl font-extrabold tracking-tight sm:text-4xl md:text-5xl">
             Take Control of Your Finances Today
           </h2>
 
           {/* Subtext */}
-          <p className="mb-10 text-lg md:text-xl text-card-foreground/90">
+          <p className="mb-10 text-lg md:text-xl text-card-foreground/80">
             Join millions who trust us to manage their money smarter. Sign up
             now and enjoy the first month of Premium free.
           </p>
@@ -23,7 +23,7 @@ export default function CTA() {
             <Input
               type="email"
               placeholder="Enter your email"
-              className="flex-1 text-card-foreground  placeholder:text-card-foreground border-none focus:ring-2 focus:ring-accent"
+              className="flex-1 text-card-foreground placeholder:text-card-foreground/60 border border-border focus:ring-2 focus:ring-primary"
             />
             <Button
               size="lg"

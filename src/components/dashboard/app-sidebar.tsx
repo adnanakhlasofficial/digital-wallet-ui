@@ -39,10 +39,10 @@ export function AppSidebar({ user, ...props }: IProps) {
           <Link className="flex items-center" to="/">
             <div>
               <span className={cn(theme === "dark" ? "block" : "hidden")}>
-                <DarkIcon />
+                <DarkIcon className="w-10" />
               </span>
               <span className={cn(theme === "light" ? "block" : "hidden")}>
-                <LightIcon />
+                <LightIcon className="w-10" />
               </span>
             </div>
             <div className="grid flex-1 text-left text-sm leading-tight">

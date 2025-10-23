@@ -7,6 +7,7 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Check } from "lucide-react";
+import { motion } from "motion/react";
 
 const plans = [
   {
@@ -57,58 +58,97 @@ const plans = [
 
 export default function Pricing() {
   return (
-    <section>
-      <div className="container mx-auto px-4">
-        <div className="mb-12 text-center">
-          <h2 className="mb-4 text-3xl font-bold tracking-tight sm:text-4xl">
+    <section className="relative py-20 bg-linear-to-b from-background via-background/90 to-secondary/20">
+      {/* Decorative gradients */}
+      <div className="absolute inset-0 -z-10">
+        <div className="absolute top-20 left-20 w-72 h-72 bg-primary/10 blur-3xl rounded-full opacity-50" />
+        <div className="absolute bottom-20 right-20 w-72 h-72 bg-secondary/10 blur-3xl rounded-full opacity-40" />
+      </div>
+
+      <div className="container mx-auto px-4 relative">
+        {/* Heading */}
+        <div className="text-center mb-16">
+          <span className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
+            Flexible Plans
+          </span>
+          <h2 className="text-4xl sm:text-5xl font-bold text-primary mb-4">
             Simple, Transparent Pricing
           </h2>
-          <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
+          <p className="max-w-2xl mx-auto text-lg text-muted-foreground">
             Choose the plan that fits your needs. Upgrade or downgrade anytime.
           </p>
         </div>
-        <div className="grid gap-6 md:grid-cols-3 grow">
+
+        {/* Pricing Grid */}
+        <div className="grid gap-8 md:grid-cols-3">
           {plans.map((plan, index) => (
-            <Card
+            <motion.div
               key={index}
-              className={`relative transition-all hover:shadow-xl flex flex-col h-full${
-                plan.popular ? "border-primary shadow-lg" : ""
-              }`}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{
+                duration: 0.4,
+                delay: index * 0.1,
+                ease: "easeOut",
+              }}
+              viewport={{ once: true }}
             >
-              {plan.popular && (
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                  <Badge>Most Popular</Badge>
-                </div>
-              )}
-              <CardHeader className="text-center">
-                <h3 className="text-2xl font-bold">{plan.name}</h3>
-                <div className="mt-4">
-                  <span className="text-4xl font-bold">{plan.price}</span>
-                  <span className="text-muted-foreground">{plan.period}</span>
-                </div>
-                <p className="mt-2 text-sm text-muted-foreground">
-                  {plan.description}
-                </p>
-              </CardHeader>
-              <CardContent className="grow">
-                <ul className="space-y-3 grow">
-                  {plan.features.map((feature, featureIndex) => (
-                    <li key={featureIndex} className="flex items-start gap-2">
-                      <Check className="h-5 w-5 shrink-0 text-primary" />
-                      <span className="text-sm">{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-              </CardContent>
-              <CardFooter>
-                <Button
-                  className="w-full"
-                  variant={plan.popular ? "default" : "outline"}
-                >
-                  Get Started
-                </Button>
-              </CardFooter>
-            </Card>
+              <Card
+                className={`relative flex flex-col h-full border-2 rounded-2xl transition-all duration-300 backdrop-blur-sm
+                ${
+                  plan.popular
+                    ? "border-primary shadow-lg shadow-primary/20 scale-[1.02]"
+                    : "border-border/40 hover:border-primary/30 hover:shadow-md"
+                }`}
+              >
+                {plan.popular && (
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+                    <Badge className="px-3 py-1 bg-primary text-primary-foreground">
+                      Most Popular
+                    </Badge>
+                  </div>
+                )}
+
+                <CardHeader className="text-center">
+                  <h3 className="text-2xl font-bold text-foreground">
+                    {plan.name}
+                  </h3>
+                  <div className="mt-4">
+                    <span className="text-4xl font-bold text-primary">
+                      {plan.price}
+                    </span>
+                    <span className="text-muted-foreground">{plan.period}</span>
+                  </div>
+                  <p className="mt-2 text-sm text-muted-foreground">
+                    {plan.description}
+                  </p>
+                </CardHeader>
+
+                <CardContent className="grow">
+                  <ul className="space-y-3">
+                    {plan.features.map((feature, featureIndex) => (
+                      <li
+                        key={featureIndex}
+                        className="flex items-start gap-2 text-sm text-muted-foreground"
+                      >
+                        <Check className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+                        <span>{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </CardContent>
+
+                <CardFooter className="mt-auto">
+                  <Button
+                    className="w-full"
+                    size="lg"
+                    variant={plan.popular ? "default" : "outline"}
+                  >
+                    Get Started
+                  </Button>
+                </CardFooter>
+              </Card>
+            </motion.div>
           ))}
         </div>
       </div>

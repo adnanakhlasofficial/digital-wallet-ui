@@ -25,7 +25,12 @@ export default function SidebarNavigation() {
       <SidebarGroupLabel>Platform</SidebarGroupLabel>
       <SidebarMenu>
         {sidebarItems.map(({ title, icon: Icon, items }) => (
-          <Collapsible key={title} asChild className="group/collapsible">
+          <Collapsible
+            key={title}
+            asChild
+            defaultOpen
+            className="group/collapsible"
+          >
             <SidebarMenuItem>
               {/* Parent Menu Item */}
               <CollapsibleTrigger asChild>

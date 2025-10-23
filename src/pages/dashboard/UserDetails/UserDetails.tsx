@@ -36,74 +36,56 @@ export function UserDetails() {
   if (isLoading) return <LoadingMotion />;
 
   return (
-    <Card className="border border-border shadow-xl bg-card">
+    <Card className="border border-border shadow-lg bg-card">
       <CardHeader className="flex flex-row items-center justify-between pb-2">
         <div>
-          <CardTitle className="text-3xl font-bold tracking-tight bg-linear-to-r from-slate-900 to-slate-600 dark:from-slate-100 dark:to-slate-400 bg-clip-text text-transparent">
+          <CardTitle className="text-3xl font-bold tracking-tight text-primary">
             User Profile
           </CardTitle>
           <CardDescription className="text-muted-foreground mt-1">
             Complete information and account details
           </CardDescription>
         </div>
-
-        {/* User dropdown menu */}
-        {/*
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" size="icon" className="h-9 w-9">
-              <MoreVertical className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem>Edit Profile</DropdownMenuItem>
-            <DropdownMenuItem>View Activity</DropdownMenuItem>
-            <DropdownMenuItem>Export Data</DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem className="text-red-600">
-              Suspend Account
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-         */}
       </CardHeader>
 
       <CardContent className="space-y-8">
         {/* Header Banner */}
-        <div className="relative h-36 rounded-2xl overflow-hidden bg-linear-to-r from-primary/80 to-primary/60 dark:from-primary/70 dark:to-primary/50 shadow-lg">
-          <div className="absolute inset-0 bg-[linear-gradient(135deg,#ffffff05_1px,transparent_1px),linear-gradient(225deg,#ffffff05_1px,transparent_1px)] bg-size-[32px_32px]" />
-
+        <div className="relative h-36 rounded-2xl overflow-hidden bg-accent shadow-md">
           <div className="absolute top-5 right-5">
             {user.isVerified ? (
-              <Badge className="px-3 py-1 rounded-full shadow-md text-sm font-semibold bg-emerald-100 text-emerald-800 border-emerald-200">
-                <CheckCircle2 className="h-3.5 w-3.5 mr-1" />
+              <Badge
+                variant="secondary"
+                className="flex items-center gap-1 font-semibold text-green-700 dark:text-green-400 border border-green-200 dark:border-green-800 bg-green-100 dark:bg-green-900/30"
+              >
+                <CheckCircle2 className="h-3.5 w-3.5" />
                 Verified
               </Badge>
             ) : (
-              <Badge className="px-3 py-1 rounded-full shadow-md text-sm font-semibold bg-amber-100 text-amber-800 border-amber-200">
-                <XCircle className="h-3.5 w-3.5 mr-1" />
+              <Badge
+                variant="secondary"
+                className="flex items-center gap-1 font-semibold text-yellow-700 dark:text-yellow-400 border border-yellow-200 dark:border-yellow-800 bg-yellow-100 dark:bg-yellow-900/30"
+              >
+                <XCircle className="h-3.5 w-3.5" />
                 Unverified
               </Badge>
             )}
           </div>
-
-          <div className="absolute inset-0 bg-black/10 dark:bg-black/20 mix-blend-overlay pointer-events-none" />
         </div>
 
         {/* Profile Info */}
         <div className="flex items-start gap-4 -mt-20 relative z-10">
-          <Avatar className="h-24 w-24 ring-primary ring-2">
+          <Avatar className="h-24 w-24 ring-2 ring-primary">
             <AvatarImage
               src={user.profilePicture || undefined}
               alt={user.name}
             />
-            <AvatarFallback className="text-2xl font-semibold bg-primary-foreground">
+            <AvatarFallback className="text-2xl font-semibold bg-muted text-muted-foreground">
               {createInitials(user.name)}
             </AvatarFallback>
           </Avatar>
 
           <div className="pt-6">
-            <h2 className="text-4xl font-bold">{user.name}</h2>
+            <h2 className="text-4xl font-bold text-foreground">{user.name}</h2>
             <Badge variant="outline" className={getRoleBadge(user.role)}>
               {user.role}
             </Badge>
@@ -114,12 +96,13 @@ export function UserDetails() {
 
         {/* Summary Cards */}
         <div className="grid md:grid-cols-2 gap-6">
+          {/* Verification Card */}
           <Card
             className={cn(
-              "border border-border shadow-md rounded-xl",
+              "border border-border shadow-sm rounded-xl",
               user.isVerified
-                ? "bg-emerald-50 dark:bg-emerald-900/20"
-                : "bg-amber-50 dark:bg-amber-900/20"
+                ? "bg-green-50 dark:bg-green-900/10"
+                : "bg-yellow-50 dark:bg-yellow-900/10"
             )}
           >
             <CardHeader className="pb-3">
@@ -127,11 +110,11 @@ export function UserDetails() {
                 className={cn(
                   "flex items-center gap-2 text-sm font-medium",
                   user.isVerified
-                    ? "text-emerald-700 dark:text-emerald-400"
-                    : "text-amber-700 dark:text-amber-400"
+                    ? "text-green-700 dark:text-green-400"
+                    : "text-yellow-700 dark:text-yellow-400"
                 )}
               >
-                <CheckCircle2 className="h-4 w-4" />
+                <Shield className="h-4 w-4" />
                 Verification Status
               </CardDescription>
             </CardHeader>
@@ -140,8 +123,8 @@ export function UserDetails() {
                 className={cn(
                   "text-3xl font-bold",
                   user.isVerified
-                    ? "text-emerald-900 dark:text-emerald-100"
-                    : "text-amber-900 dark:text-amber-100"
+                    ? "text-green-900 dark:text-green-100"
+                    : "text-yellow-900 dark:text-yellow-100"
                 )}
               >
                 {user.isVerified ? "Verified" : "Unverified"}
@@ -150,11 +133,11 @@ export function UserDetails() {
                 className={cn(
                   "flex items-center gap-1 mt-2 text-xs",
                   user.isVerified
-                    ? "text-emerald-600 dark:text-emerald-400"
-                    : "text-amber-600 dark:text-amber-400"
+                    ? "text-green-600 dark:text-green-400"
+                    : "text-yellow-600 dark:text-yellow-400"
                 )}
               >
-                <Shield className="h-3 w-3" />
+                <CheckCircle2 className="h-3 w-3" />
                 <span>
                   {user.isVerified
                     ? "Identity Confirmed"
@@ -164,18 +147,19 @@ export function UserDetails() {
             </CardContent>
           </Card>
 
-          <Card className="bg-linear-to-br from-blue-50 to-indigo-50 dark:from-blue-950/20 dark:to-indigo-950/20 border-blue-200/60 dark:border-blue-900/30">
+          {/* Date of Birth Card */}
+          <Card className="border border-border shadow-sm bg-muted/30">
             <CardHeader className="pb-3">
-              <CardDescription className="flex items-center gap-2 text-blue-700 dark:text-blue-400 font-medium">
+              <CardDescription className="flex items-center gap-2 text-muted-foreground font-medium">
                 <Calendar className="h-4 w-4" />
                 Date of Birth
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-blue-900 dark:text-blue-100">
+              <div className="text-3xl font-bold text-foreground">
                 {format(new Date(user.dateOfBirth), "PP")}
               </div>
-              <div className="flex items-center gap-1 mt-2 text-xs text-blue-600 dark:text-blue-500">
+              <div className="flex items-center gap-1 mt-2 text-xs text-muted-foreground">
                 <span>
                   {calculateAge(user.dateOfBirth as string)} years old
                 </span>
@@ -186,37 +170,21 @@ export function UserDetails() {
 
         {/* Contact Info */}
         <div className="space-y-4">
-          <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-100 flex items-center gap-2">
+          <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
             <User className="h-4 w-4" />
             Contact Information
           </h3>
 
           <div className="grid md:grid-cols-2 gap-4">
-            <InfoCard
-              icon={Mail}
-              label="Email Address"
-              value={user.email}
-              color="blue"
-            />
-            <InfoCard
-              icon={Phone}
-              label="Phone Number"
-              value={user.phone}
-              color="teal"
-            />
+            <InfoCard icon={Mail} label="Email Address" value={user.email} />
+            <InfoCard icon={Phone} label="Phone Number" value={user.phone} />
             <InfoCard
               icon={CreditCard}
               label="National ID"
               value={user.nid}
-              color="slate"
               mono
             />
-            <InfoCard
-              icon={Shield}
-              label="User Role"
-              value={user.role}
-              color="amber"
-            />
+            <InfoCard icon={Shield} label="User Role" value={user.role} />
           </div>
         </div>
 

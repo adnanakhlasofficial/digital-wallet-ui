@@ -40,7 +40,7 @@ export const sidebarItems: SidebarItem[] = [
         show: true,
       },
       {
-        title: "All Users",
+        title: "User Details",
         url: "/dashboard/users/:email",
         Component: UserDetails,
         show: false,

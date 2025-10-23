@@ -37,71 +37,51 @@ export default function WalletDetails() {
   if (isLoading) return <LoadingMotion />;
 
   return (
-    <Card className="border border-border shadow-xl bg-card">
+    <Card className="border border-border shadow-lg bg-card">
       <CardHeader className="flex flex-row items-center justify-between pb-2">
         <div>
-          <CardTitle className="text-3xl font-bold tracking-tight bg-linear-to-r from-slate-900 to-slate-600 dark:from-slate-100 dark:to-slate-400 bg-clip-text text-transparent">
+          <CardTitle className="text-3xl font-bold tracking-tight text-primary">
             Wallet Details
           </CardTitle>
           <CardDescription className="text-muted-foreground mt-1">
             Complete overview of wallet information
           </CardDescription>
         </div>
-        {/* Wallet Dropdown menu */}
-        {/*
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" size="icon" className="h-9 w-9">
-              <MoreVertical className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem>Edit Wallet</DropdownMenuItem>
-            <DropdownMenuItem>View History</DropdownMenuItem>
-            <DropdownMenuItem>Export Data</DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem className="text-red-600">
-              Suspend Wallet
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-         */}
       </CardHeader>
 
       <CardContent className="space-y-8">
         {/* Header Banner */}
-        <div className="relative h-36 rounded-2xl overflow-hidden bg-linear-to-r from-primary/80 to-primary/60 dark:from-primary/70 dark:to-primary/50 shadow-lg">
-          <div className="absolute inset-0 bg-[linear-gradient(135deg,#ffffff05_1px,transparent_1px),linear-gradient(225deg,#ffffff05_1px,transparent_1px)] bg-size-[32px_32px]" />
-
+        <div className="relative h-36 rounded-2xl overflow-hidden bg-accent shadow-md">
           <div className="absolute top-5 right-5">
             <Badge
+              variant="secondary"
               className={cn(
-                "px-3 py-1 rounded-full shadow-md text-sm font-semibold",
+                "flex items-center gap-1 font-semibold border",
                 wallet.status === "Active" &&
-                  "bg-emerald-100 text-emerald-800 border-emerald-200",
+                  "text-green-700 dark:text-green-400 border-green-200 dark:border-green-800 bg-green-100 dark:bg-green-900/30",
                 wallet.status === "Blocked" &&
-                  "bg-rose-100 text-rose-800 border-rose-200",
+                  "text-red-700 dark:text-red-400 border-red-200 dark:border-red-800 bg-red-100 dark:bg-red-900/30",
                 wallet.status === "Suspended" &&
-                  "bg-amber-100 text-amber-800 border-amber-200"
+                  "text-yellow-700 dark:text-yellow-400 border-yellow-200 dark:border-yellow-800 bg-yellow-100 dark:bg-yellow-900/30"
               )}
             >
               {wallet.status}
             </Badge>
           </div>
-
-          <div className="absolute inset-0 bg-black/10 dark:bg-black/20 mix-blend-overlay pointer-events-none" />
         </div>
 
         {/* Profile Info */}
         <div className="flex items-start gap-4 -mt-20 relative z-10">
-          <Avatar className="h-24 w-24 ring-primary ring-2">
-            <AvatarFallback className="text-2xl font-semibold bg-primary-foreground">
+          <Avatar className="h-24 w-24 ring-2 ring-primary">
+            <AvatarFallback className="text-2xl font-semibold bg-muted text-muted-foreground">
               {createInitials(wallet.name)}
             </AvatarFallback>
           </Avatar>
 
           <div className="pt-6">
-            <h2 className="text-4xl font-bold">{wallet.name}</h2>
+            <h2 className="text-4xl font-bold text-foreground">
+              {wallet.name}
+            </h2>
             <Badge variant="outline" className={getRoleBadge(wallet.role)}>
               {wallet.role}
             </Badge>
@@ -112,34 +92,35 @@ export default function WalletDetails() {
 
         {/* Summary Cards */}
         <div className="grid md:grid-cols-2 gap-6">
-          <Card className="bg-linear-to-br from-emerald-50 to-teal-50 dark:from-emerald-950/20 dark:to-teal-950/20 border-emerald-200/60 dark:border-emerald-900/30">
+          {/* Current Balance */}
+          <Card className="border border-border shadow-sm bg-muted/30">
             <CardHeader className="pb-3">
-              <CardDescription className="flex items-center gap-2 text-emerald-700 dark:text-emerald-400 font-medium">
+              <CardDescription className="flex items-center gap-2 text-muted-foreground font-medium">
                 <Wallet className="h-4 w-4" />
                 Current Balance
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-emerald-900 dark:text-emerald-100">
+              <div className="text-3xl font-bold text-foreground">
                 {formatCurrency(wallet.balance)}
               </div>
-              <div className="flex items-center gap-1 mt-2 text-xs text-emerald-600 dark:text-emerald-500">
+              <div className="flex items-center gap-1 mt-2 text-xs text-muted-foreground">
                 <TrendingUp className="h-3 w-3" />
                 <span>Active Account</span>
               </div>
             </CardContent>
           </Card>
 
+          {/* Account Status */}
           <Card
             className={cn(
-              "border border-border shadow-md rounded-xl",
-              wallet.status === "Active"
-                ? "bg-emerald-50 dark:bg-emerald-900/20"
-                : wallet.status === "Blocked"
-                ? "bg-rose-50 dark:bg-rose-900/20"
-                : wallet.status === "Suspended"
-                ? "bg-amber-50 dark:bg-amber-900/20"
-                : "bg-slate-50 dark:bg-slate-900/40"
+              "border border-border shadow-sm rounded-xl",
+              wallet.status === "Active" && "bg-green-50 dark:bg-green-900/10",
+              wallet.status === "Blocked" && "bg-red-50 dark:bg-red-900/10",
+              wallet.status === "Suspended" &&
+                "bg-yellow-50 dark:bg-yellow-900/10",
+              !["Active", "Blocked", "Suspended"].includes(wallet.status) &&
+                "bg-muted/30"
             )}
           >
             <CardHeader className="pb-3">
@@ -147,12 +128,12 @@ export default function WalletDetails() {
                 className={cn(
                   "flex items-center gap-2 text-sm font-medium",
                   wallet.status === "Active"
-                    ? "text-emerald-700 dark:text-emerald-400"
+                    ? "text-green-700 dark:text-green-400"
                     : wallet.status === "Blocked"
-                    ? "text-rose-700 dark:text-rose-400"
+                    ? "text-red-700 dark:text-red-400"
                     : wallet.status === "Suspended"
-                    ? "text-amber-700 dark:text-amber-400"
-                    : "text-foreground/80"
+                    ? "text-yellow-700 dark:text-yellow-400"
+                    : "text-muted-foreground"
                 )}
               >
                 <Activity className="h-4 w-4" />
@@ -165,11 +146,11 @@ export default function WalletDetails() {
                 className={cn(
                   "text-3xl font-bold",
                   wallet.status === "Active"
-                    ? "text-emerald-900 dark:text-emerald-100"
+                    ? "text-green-900 dark:text-green-100"
                     : wallet.status === "Blocked"
-                    ? "text-rose-900 dark:text-rose-100"
+                    ? "text-red-900 dark:text-red-100"
                     : wallet.status === "Suspended"
-                    ? "text-amber-900 dark:text-amber-100"
+                    ? "text-yellow-900 dark:text-yellow-100"
                     : "text-foreground"
                 )}
               >
@@ -179,12 +160,12 @@ export default function WalletDetails() {
                 className={cn(
                   "flex items-center gap-1 mt-2 text-xs",
                   wallet.status === "Active"
-                    ? "text-emerald-600 dark:text-emerald-400"
+                    ? "text-green-600 dark:text-green-400"
                     : wallet.status === "Blocked"
-                    ? "text-rose-600 dark:text-rose-400"
+                    ? "text-red-600 dark:text-red-400"
                     : wallet.status === "Suspended"
-                    ? "text-amber-600 dark:text-amber-400"
-                    : "text-foreground/70"
+                    ? "text-yellow-600 dark:text-yellow-400"
+                    : "text-muted-foreground"
                 )}
               >
                 <Shield className="h-3 w-3" />
@@ -196,37 +177,21 @@ export default function WalletDetails() {
 
         {/* Personal Info */}
         <div className="space-y-4">
-          <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-100 flex items-center gap-2">
+          <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
             <User className="h-4 w-4" />
             Personal Information
           </h3>
 
           <div className="grid md:grid-cols-2 gap-4">
-            <InfoCard
-              icon={Mail}
-              label="Email Address"
-              value={wallet.email}
-              color="blue"
-            />
-            <InfoCard
-              icon={Phone}
-              label="Phone Number"
-              value={wallet.phone}
-              color="teal"
-            />
+            <InfoCard icon={Mail} label="Email Address" value={wallet.email} />
+            <InfoCard icon={Phone} label="Phone Number" value={wallet.phone} />
             <InfoCard
               icon={CreditCard}
               label="National ID"
               value={wallet.nid}
-              color="slate"
               mono
             />
-            <InfoCard
-              icon={Shield}
-              label="User Role"
-              value={wallet.role}
-              color="amber"
-            />
+            <InfoCard icon={Shield} label="User Role" value={wallet.role} />
           </div>
         </div>
 

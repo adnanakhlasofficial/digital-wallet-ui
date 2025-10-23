@@ -1,6 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Star } from "lucide-react";
+import { motion } from "motion/react";
 
 const testimonials = [
   {
@@ -31,10 +32,17 @@ const testimonials = [
 
 export default function Testimonials() {
   return (
-    <section className="bg-background">
-      <div className="container mx-auto px-4">
-        <div className="mb-12 text-center">
-          <h2 className="mb-4 text-3xl font-bold tracking-tight sm:text-4xl">
+    <section className="relative py-20 bg-linear-to-b from-secondary/20 via-background to-background">
+      {/* Subtle glow accents */}
+      <div className="absolute top-20 left-20 w-72 h-72 bg-primary/10 blur-3xl rounded-full opacity-40" />
+      <div className="absolute bottom-20 right-20 w-72 h-72 bg-secondary/10 blur-3xl rounded-full opacity-30" />
+
+      <div className="container mx-auto px-4 relative">
+        <div className="mb-16 text-center">
+          <span className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
+            Trusted by Users
+          </span>
+          <h2 className="mb-4 text-4xl sm:text-5xl font-bold tracking-tight text-primary">
             Trusted by Millions Worldwide
           </h2>
           <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
@@ -42,46 +50,56 @@ export default function Testimonials() {
           </p>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-3">
+        <div className="grid gap-8 md:grid-cols-3">
           {testimonials.map((testimonial, index) => (
-            <Card
+            <motion.div
               key={index}
-              className="border-2 transition-all hover:border-primary"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{
+                duration: 0.4,
+                delay: index * 0.1,
+              }}
+              viewport={{ once: true }}
             >
-              <CardContent className="p-6 text-center">
-                {/* Avatar */}
-                <div className="mb-4 flex justify-center">
-                  <Avatar>
-                    <AvatarFallback className="bg-primary text-primary-foreground rounded-full p-4 text-lg font-bold">
-                      {testimonial.initials}
-                    </AvatarFallback>
-                  </Avatar>
-                </div>
-
-                {/* Rating */}
-                <div className="mb-4 flex justify-center gap-1">
-                  {Array.from({ length: testimonial.rating }).map((_, i) => (
-                    <Star
-                      key={i}
-                      className="h-5 w-5 fill-primary text-primary"
-                    />
-                  ))}
-                </div>
-
-                {/* Content */}
-                <p className="mb-6 text-sm text-muted-foreground">
-                  "{testimonial.content}"
-                </p>
-
-                {/* Name & Role */}
-                <div className="text-center">
-                  <div className="font-semibold">{testimonial.name}</div>
-                  <div className="text-sm text-muted-foreground">
-                    {testimonial.role}
+              <Card className="border-2 border-border/40 rounded-2xl bg-background/60 backdrop-blur-sm text-center transition-all hover:border-primary/30 hover:shadow-lg hover:shadow-primary/10">
+                <CardContent className="p-8">
+                  {/* Avatar */}
+                  <div className="mb-4 flex justify-center">
+                    <Avatar className="h-14 w-14">
+                      <AvatarFallback className="bg-primary text-primary-foreground text-lg font-semibold">
+                        {testimonial.initials}
+                      </AvatarFallback>
+                    </Avatar>
                   </div>
-                </div>
-              </CardContent>
-            </Card>
+
+                  {/* Rating */}
+                  <div className="mb-4 flex justify-center gap-1">
+                    {Array.from({ length: testimonial.rating }).map((_, i) => (
+                      <Star
+                        key={i}
+                        className="h-5 w-5 fill-primary text-primary"
+                      />
+                    ))}
+                  </div>
+
+                  {/* Content */}
+                  <p className="mb-6 text-sm text-muted-foreground italic leading-relaxed">
+                    “{testimonial.content}”
+                  </p>
+
+                  {/* Name & Role */}
+                  <div>
+                    <div className="font-semibold text-foreground">
+                      {testimonial.name}
+                    </div>
+                    <div className="text-sm text-muted-foreground">
+                      {testimonial.role}
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </motion.div>
           ))}
         </div>
       </div>

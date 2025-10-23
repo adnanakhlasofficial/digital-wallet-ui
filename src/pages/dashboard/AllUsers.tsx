@@ -78,9 +78,9 @@ export default function AllUsers() {
           </TableHeader>
 
           <TableBody>
-            {users.map((user, index) => (
+            {users.map((user) => (
               <TableRow
-                key={index}
+                key={user.phone}
                 className="border-border hover:bg-muted transition-colors"
               >
                 {/* 👤 Name + Role */}
