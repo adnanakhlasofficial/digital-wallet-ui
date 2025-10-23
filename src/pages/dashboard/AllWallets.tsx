@@ -34,8 +34,8 @@ export default function AllWallets() {
   const activeWallets = wallets.filter((w) => w.status === "Active").length;
 
   return (
-    <Card className="w-full border border-border shadow-md bg-card">
-      <CardHeader className="border-b border-border bg-muted/50">
+    <Card className="w-full border border-border shadow-md bg-card p-0 gap-0">
+      <CardHeader className="border-b border-border bg-muted/50 block p-6">
         <div className="flex items-start gap-3">
           <div className="p-2.5 rounded-lg bg-primary/10 shadow-sm">
             <Wallet className="h-5 w-5 text-primary" />

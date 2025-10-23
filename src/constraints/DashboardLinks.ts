@@ -5,6 +5,7 @@ import CashIn from "@/pages/dashboard/CashIn";
 import CashOut from "@/pages/dashboard/CashOut";
 import MyTransactions from "@/pages/dashboard/MyTransactions";
 import SendMoney from "@/pages/dashboard/SendMoney";
+import { UserDetails } from "@/pages/dashboard/UserDetails/UserDetails";
 import WalletDetails from "@/pages/dashboard/WalletDetails/WalletDetails";
 import {
   CreditCard,
@@ -37,6 +38,12 @@ export const sidebarItems: SidebarItem[] = [
         url: "/dashboard/users",
         Component: AllUsers,
         show: true,
+      },
+      {
+        title: "All Users",
+        url: "/dashboard/users/:email",
+        Component: UserDetails,
+        show: false,
       },
     ],
   },

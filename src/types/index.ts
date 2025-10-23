@@ -1,5 +1,5 @@
 type TWalletStatus = "Active" | "Blocked" | "Suspended";
-type TUserStatus = "Admin" | "User" | "Agent";
+export type TUserStatus = "Admin" | "User" | "Agent";
 
 export interface IUserWallet {
   balance: number;
@@ -8,19 +8,19 @@ export interface IUserWallet {
 }
 
 export interface IUser {
-  _id: string;
+  _id?: string;
   name: string;
   email: string;
   phone: string;
-  password: string;
+  password?: string;
   role: TUserStatus;
   profilePicture: string | null;
   nid: string;
-  dateOfBirth: Date;
+  dateOfBirth: Date | string;
   isVerified: boolean;
-  createdAt: Date;
-  updatedAt: Date;
-  wallet: IUserWallet;
+  createdAt: Date | string;
+  updatedAt: Date | string;
+  wallet?: IUserWallet;
 }
 
 export interface IWallet {

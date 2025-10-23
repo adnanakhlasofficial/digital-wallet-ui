@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
-import type { IUser } from "@/types";
+import type { TUserStatus } from "@/types";
 
-export const getRoleBadge = (role: IUser["role"]) =>
+export const getRoleBadge = (role: TUserStatus) =>
   cn(
     "border font-medium",
     role === "Admin" &&
