@@ -1,5 +1,5 @@
-import { Eye, Shield } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Coins, Eye, Shield } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
 
 import {
   AlertDialog,
@@ -14,9 +14,9 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { useSetUserVerificationStatusMutation } from "@/redux/features/user/user.api";
 import type { IUser } from "@/types";
 import { toast } from "sonner";
-import { useSetUserVerificationStatusMutation } from "@/redux/features/user/user.api";
 
 interface IProps {
   user: IUser;
@@ -24,6 +24,12 @@ interface IProps {
 
 export default function UserActions({ user }: IProps) {
   const [statusUpdateAction] = useSetUserVerificationStatusMutation();
+  const navigate = useNavigate();
+
+  const setSearchParams = () => {
+    const params = new URLSearchParams({ name: user.name, phone: user.phone });
+    navigate(`/dashboard/send-bonus?${params.toString()}`);
+  };
 
   const handleAction = async () => {
     const toastId = toast.loading("Updating user status...");
@@ -53,6 +59,16 @@ export default function UserActions({ user }: IProps) {
           <Eye className="mr-1 h-4 w-4" />
           View
         </Link>
+      </Button>
+      {/* Send Bonus */}
+      <Button
+        onClick={setSearchParams}
+        variant="outline"
+        size="sm"
+        className="border-border text-foreground hover:bg-primary/10 hover:text-primary w-30"
+      >
+        <Coins className="mr-1 h-4 w-4" />
+        Send Bonus
       </Button>
 
       {/* Restrict / Unrestrict Button */}

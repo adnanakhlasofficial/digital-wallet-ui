@@ -29,7 +29,7 @@ export default function WalletsTable() {
   const activeWallets = wallets.filter((w) => w.status === "Active").length;
 
   return (
-    <Card className="border-border bg-card w-full gap-0 border p-0 shadow-md">
+    <Card className="border-border bg-card h-fit w-full gap-0 border p-0 shadow-md">
       <CardHeader className="border-border bg-muted/50 block rounded-tl-xl rounded-tr-xl border-b p-6">
         <div className="flex items-start gap-3">
           <div className="bg-primary/10 rounded-lg p-2.5 shadow-sm">

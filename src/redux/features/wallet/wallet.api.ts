@@ -20,7 +20,6 @@ export const walletApi = baseApi.injectEndpoints({
       query: () => ({
         url: "/wallet/me",
       }),
-      providesTags: ["WALLET"],
       transformResponse: (response) => response.data,
     }),
     setWalletStatus: builder.mutation({

@@ -23,8 +23,8 @@ export default function Dashboard() {
     <SidebarProvider>
       <AppSidebar user={user} />
       <SidebarInset>
-        <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] border-b ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
-          <div className="flex items-center justify-between gap-2 px-4 w-full">
+        <header className="flex h-16 shrink-0 items-center gap-2 border-b transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
+          <div className="flex w-full items-center justify-between gap-2 px-4">
             <div className="flex items-center">
               <SidebarTrigger className="-ml-1" />
               <Separator
@@ -39,7 +39,7 @@ export default function Dashboard() {
             </div>
           </div>
         </header>
-        <div className="flex flex-1 flex-col gap-4 p-4 ">
+        <div className="grid grow grid-cols-1 grid-rows-1 p-4">
           <Outlet />
         </div>
       </SidebarInset>

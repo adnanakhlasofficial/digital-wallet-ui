@@ -1,4 +1,3 @@
-import { Input } from "@/components/ui/input";
 import {
   Form,
   FormControl,
@@ -7,15 +6,16 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 
+import { useLoginMutation } from "@/redux/features/auth/auth.api";
+import { Loader2Icon, LockIcon, LogInIcon, MailIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 import { z } from "zod";
 import { Button } from "../ui/button";
-import { Loader2Icon, LockIcon, LogInIcon, MailIcon } from "lucide-react";
-import { useLoginMutation } from "@/redux/features/auth/auth.api";
-import { toast } from "sonner";
-import { useLocation, useNavigate } from "react-router-dom";
 
 const signInSchema = z.object({
   email: z.email("Please enter a valid email address"),
@@ -27,7 +27,6 @@ type SignInFormData = z.infer<typeof signInSchema>;
 export default function SignInForm() {
   const [login] = useLoginMutation();
   const navigate = useNavigate();
-  const { state } = useLocation();
 
   const form = useForm<SignInFormData>({
     resolver: zodResolver(signInSchema),
@@ -43,7 +42,7 @@ export default function SignInForm() {
       await login(values);
       setTimeout(() => {
         toast.success("Login success", { id: toastId });
-        navigate((state === "/register" ? "/login" : state) || "/");
+        navigate("/dashboard");
       }, 2000);
     } catch (err) {
       toast.error("Failed to login", { id: toastId });
@@ -64,11 +63,11 @@ export default function SignInForm() {
                 <FormLabel>Email</FormLabel>
                 <FormControl>
                   <div className="relative">
-                    <MailIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <MailIcon className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform" />
                     <Input
                       placeholder="you@example.com"
                       type="email"
-                      className="pl-10 h-11"
+                      className="h-11 pl-10"
                       {...field}
                     />
                   </div>
@@ -87,13 +86,13 @@ export default function SignInForm() {
                 <FormLabel>PIN</FormLabel>
                 <FormControl>
                   <div className="relative">
-                    <LockIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <LockIcon className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform" />
                     <Input
                       placeholder="•••••"
                       type="password"
                       inputMode="numeric"
                       maxLength={5}
-                      className="pl-10 h-11 tracking-widest"
+                      className="h-11 pl-10 tracking-widest"
                       {...field}
                       onChange={(e) => {
                         const value = e.target.value.replace(/\D/g, ""); // only numbers
@@ -110,7 +109,7 @@ export default function SignInForm() {
           {/* Submit Button with Icon */}
           <Button
             type="submit"
-            className="w-full h-11"
+            className="h-11 w-full"
             disabled={form.formState.isSubmitting}
           >
             {form.formState.isSubmitting ? (
