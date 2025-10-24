@@ -15,16 +15,17 @@ import {
 } from "@/components/ui/table";
 import { useGetAllTransactionsQuery } from "@/redux/features/transaction/transaction.api";
 
-import type { Transaction } from "@/types";
 import { Coins } from "lucide-react";
 import TransactionRow from "./TransactionRow";
+import type { ITransaction } from "@/types";
+import TableSkeleton from "@/components/shared/TableSkeleton";
 
 export default function TransactionsTable() {
   const { data, isLoading } = useGetAllTransactionsQuery({});
 
-  if (isLoading) return <LoadingMotion />;
+  if (isLoading) return <TableSkeleton />;
 
-  const transactions = data as Transaction[];
+  const transactions = data as ITransaction[];
 
   const totalAmount = transactions.reduce(
     (sum, trx) => sum + (trx.amount || 0),

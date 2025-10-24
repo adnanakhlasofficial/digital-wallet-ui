@@ -17,11 +17,12 @@ import { useGetAllUsersQuery } from "@/redux/features/user/user.api";
 import type { IUser } from "@/types";
 import { User } from "lucide-react";
 import UserRow from "./UserRow";
+import TableSkeleton from "@/components/shared/TableSkeleton";
 
 export default function UsersTable() {
   const { data, isLoading } = useGetAllUsersQuery({});
 
-  if (isLoading) return <LoadingMotion />;
+  if (isLoading) return <TableSkeleton />;
 
   const users = data as IUser[];
   const verifiedUsers = users.filter((u) => u.isVerified).length;

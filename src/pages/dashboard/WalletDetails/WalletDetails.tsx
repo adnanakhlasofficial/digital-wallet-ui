@@ -9,7 +9,6 @@ import {
   Wallet,
 } from "lucide-react";
 
-import LoadingMotion from "@/components/shared/LoadingMotion";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -26,6 +25,7 @@ import { formatCurrency } from "@/utils/formatCurrency";
 import { getRoleBadge } from "@/utils/getRoleBadge";
 
 import DateInfo from "@/components/shared/DateInfo";
+import DetailsCardSkeleton from "@/components/shared/DetailsCardSkeleton";
 import InfoCard from "@/components/shared/InfoCard";
 import { useGetSingleWalletQuery } from "@/redux/features/wallet/wallet.api";
 import { useParams } from "react-router-dom";
@@ -34,7 +34,7 @@ export default function WalletDetails() {
   const params = useParams();
   const { data: wallet, isLoading } = useGetSingleWalletQuery(params);
 
-  if (isLoading) return <LoadingMotion />;
+  if (isLoading) return <DetailsCardSkeleton />;
 
   return (
     <Card className="border-border bg-card border shadow-lg">

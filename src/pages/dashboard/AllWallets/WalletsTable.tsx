@@ -18,11 +18,12 @@ import type { IWallet } from "@/types";
 import { formatCurrency } from "@/utils/formatCurrency";
 import { Wallet } from "lucide-react";
 import WalletRow from "./WalletRow";
+import TableSkeleton from "@/components/shared/TableSkeleton";
 
 export default function WalletsTable() {
   const { data, isLoading } = useGetAllWalletsQuery({});
 
-  if (isLoading) return <LoadingMotion />;
+  if (isLoading) return <TableSkeleton />;
 
   const wallets = data as IWallet[];
   const totalBalance = wallets.reduce((sum, wallet) => sum + wallet.balance, 0);
