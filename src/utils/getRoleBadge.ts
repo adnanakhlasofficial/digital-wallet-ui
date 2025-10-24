@@ -3,11 +3,10 @@ import type { TUserStatus } from "@/types";
 
 export const getRoleBadge = (role: TUserStatus) =>
   cn(
-    "border font-medium",
-    role === "Admin" &&
-      "bg-blue-500/10 text-blue-700 dark:text-blue-400 border-blue-500/20",
-    role === "Agent" &&
-      "bg-teal-500/10 text-teal-700 dark:text-teal-400 border-teal-500/20",
+    "rounded-full border px-2 py-0.5 text-xs font-medium",
+    role === "Admin" && "bg-primary/15 text-primary border-primary/30",
     role === "User" &&
-      "bg-slate-500/10 text-slate-700 dark:text-slate-400 border-slate-500/20"
+      "bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-300",
+    role === "Agent" &&
+      "bg-purple-100 text-purple-800 dark:bg-purple-900/20 dark:text-purple-300",
   );

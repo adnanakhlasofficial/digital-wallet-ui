@@ -1,6 +1,6 @@
 import AllTransactions from "@/pages/dashboard/AllTransactions";
-import AllUsers from "@/pages/dashboard/AllUsers";
-import AllWallets from "@/pages/dashboard/AllWallets";
+import UsersTable from "@/pages/dashboard/AllUsers/UsersTable";
+import WalletsTable from "@/pages/dashboard/AllWallets/WalletsTable";
 import CashIn from "@/pages/dashboard/CashIn";
 import CashOut from "@/pages/dashboard/CashOut";
 import MyTransactions from "@/pages/dashboard/MyTransactions";
@@ -36,7 +36,7 @@ export const sidebarItems: SidebarItem[] = [
       {
         title: "All Users",
         url: "/dashboard/users",
-        Component: AllUsers,
+        Component: UsersTable,
         show: true,
       },
       {
@@ -54,7 +54,7 @@ export const sidebarItems: SidebarItem[] = [
       {
         title: "All Wallets",
         url: "/dashboard/wallets",
-        Component: AllWallets,
+        Component: WalletsTable,
         show: true,
       },
       {

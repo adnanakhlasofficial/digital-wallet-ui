@@ -16,7 +16,19 @@ export const userApi = baseApi.injectEndpoints({
       providesTags: ["USER"],
       transformResponse: (response) => response.data,
     }),
+    setUserVerificationStatus: builder.mutation({
+      query: ({ email }) => ({
+        url: `/user/${email}`,
+        method: "PATCH",
+      }),
+      invalidatesTags: ["USER"],
+      transformResponse: (response) => response.data,
+    }),
   }),
 });
 
-export const { useGetAllUsersQuery, useGetSingleUserQuery } = userApi;
+export const {
+  useGetAllUsersQuery,
+  useGetSingleUserQuery,
+  useSetUserVerificationStatusMutation,
+} = userApi;

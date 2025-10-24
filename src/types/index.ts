@@ -1,4 +1,4 @@
-type TWalletStatus = "Active" | "Blocked" | "Suspended";
+export type TWalletStatus = "Active" | "Blocked" | "Suspended";
 export type TUserStatus = "Admin" | "User" | "Agent";
 
 export interface IUserWallet {
