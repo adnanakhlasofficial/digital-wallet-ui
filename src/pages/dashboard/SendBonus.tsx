@@ -20,7 +20,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { DollarSignIcon, Loader2Icon, PhoneIcon, SendIcon } from "lucide-react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { useGetWalletMeQuery } from "@/redux/features/wallet/wallet.api";
 import MoneyOperationSkeleton from "@/components/shared/MoneyOperationSkeleton";
@@ -39,7 +39,7 @@ const sendBonusSchema = z.object({
 type SendBonusFormData = z.infer<typeof sendBonusSchema>;
 
 export default function SendBonus() {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const { search } = useLocation();
   const params = new URLSearchParams(search);
   const info = Object.fromEntries(params.entries());
@@ -72,7 +72,7 @@ export default function SendBonus() {
       await sendBonus(payload);
       toast.success("Bonus sent successfully!", { id: toastId });
       form.reset();
-      // navigate("/"); // optional
+      navigate("/dashboard/transactions");
     } catch (err) {
       toast.error("Failed to send bonus", { id: toastId });
       console.error(err);

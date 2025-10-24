@@ -1,5 +1,10 @@
 export type TWalletStatus = "Active" | "Blocked" | "Suspended";
 export type TUserStatus = "Admin" | "User" | "Agent";
+export type TTransactionType =
+  | "Send Bonus"
+  | "Send Money"
+  | "Cash In"
+  | "Cash Out";
 
 export interface IUserWallet {
   balance: number;
@@ -33,4 +38,18 @@ export interface IWallet {
   name: string;
   role: TUserStatus;
   nid: string;
+}
+
+export interface ITransaction {
+  trxId: string;
+  transactionType: TTransactionType;
+  sender: string;
+  receiver: string;
+  amount: number;
+  fee: number | null;
+  commission: number | null;
+  netAmount: number | null;
+  createdAt: Date | string; // ISO date string
+  senderName: string;
+  receiverName: string;
 }

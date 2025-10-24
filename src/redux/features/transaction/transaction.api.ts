@@ -8,8 +8,17 @@ export const transactionApi = baseApi.injectEndpoints({
         method: "POST",
         data: payload,
       }),
+      invalidatesTags: ["TRANSACTIONS"],
+    }),
+    getAllTransactions: builder.query({
+      query: () => ({
+        url: "/transaction/all",
+      }),
+      providesTags: ["TRANSACTIONS"],
+      transformResponse: (response) => response.data,
     }),
   }),
 });
 
-export const { useSendBonusMutation } = transactionApi;
+export const { useSendBonusMutation, useGetAllTransactionsQuery } =
+  transactionApi;

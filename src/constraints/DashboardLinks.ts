@@ -1,4 +1,4 @@
-import AllTransactions from "@/pages/dashboard/AllTransactions";
+import TransactionsTable from "@/pages/dashboard/AllTransactions/TransactionsTable";
 import UsersTable from "@/pages/dashboard/AllUsers/UsersTable";
 import WalletsTable from "@/pages/dashboard/AllWallets/WalletsTable";
 import CashIn from "@/pages/dashboard/CashIn";
@@ -73,7 +73,7 @@ export const sidebarItems: SidebarItem[] = [
       {
         title: "All Transaction History",
         url: "/dashboard/transactions",
-        Component: AllTransactions,
+        Component: TransactionsTable,
         show: true,
       },
       {
