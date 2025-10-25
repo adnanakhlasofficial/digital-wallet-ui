@@ -39,11 +39,9 @@ export default function SignInForm() {
   const onSubmit = async (values: SignInFormData) => {
     const toastId = toast.loading("Logging In...");
     try {
-      await login(values);
-      setTimeout(() => {
-        toast.success("Login success", { id: toastId });
-        navigate("/dashboard");
-      }, 2000);
+      await login(values).unwrap();
+      toast.success("Login success", { id: toastId });
+      navigate("/dashboard");
     } catch (err) {
       toast.error("Failed to login", { id: toastId });
       console.error(err);

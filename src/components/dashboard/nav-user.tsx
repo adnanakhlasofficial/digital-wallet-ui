@@ -111,7 +111,7 @@ export function NavUser({
                 <DropdownMenuItem key={label} asChild>
                   <Link
                     to={path}
-                    className="flex items-center gap-2 w-full text-sm hover:text-primary"
+                    className="hover:text-primary flex w-full items-center gap-2 text-sm"
                   >
                     <Icon className="h-4 w-4" />
                     <span>{label}</span>
@@ -121,7 +121,7 @@ export function NavUser({
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem
-              className="flex items-center gap-2 w-full text-left"
+              className="flex w-full items-center gap-2 text-left"
               onClick={handleLogout}
             >
               <LogOutIcon size={16} className="opacity-60" aria-hidden="true" />

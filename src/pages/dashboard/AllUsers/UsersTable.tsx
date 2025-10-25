@@ -1,4 +1,4 @@
-import LoadingMotion from "@/components/shared/LoadingMotion";
+import TableSkeleton from "@/components/shared/TableSkeleton";
 import {
   Card,
   CardContent,
@@ -17,7 +17,6 @@ import { useGetAllUsersQuery } from "@/redux/features/user/user.api";
 import type { IUser } from "@/types";
 import { User } from "lucide-react";
 import UserRow from "./UserRow";
-import TableSkeleton from "@/components/shared/TableSkeleton";
 
 export default function UsersTable() {
   const { data, isLoading } = useGetAllUsersQuery({});
@@ -25,7 +24,7 @@ export default function UsersTable() {
   if (isLoading) return <TableSkeleton />;
 
   const users = data as IUser[];
-  const verifiedUsers = users.filter((u) => u.isVerified).length;
+  const verifiedUsers = users?.filter((u) => u?.isVerified)?.length;
 
   return (
     <Card className="border-border bg-card h-fit w-full gap-0 border p-0 shadow-md">
@@ -39,7 +38,7 @@ export default function UsersTable() {
               User Management
             </CardTitle>
             <CardDescription className="text-muted-foreground mt-1">
-              {verifiedUsers} verified users • Total: {users.length} users
+              {verifiedUsers} verified users • Total: {users?.length} users
             </CardDescription>
           </div>
         </div>

@@ -72,7 +72,7 @@ export default function SendBonus() {
       await sendBonus(payload);
       toast.success("Bonus sent successfully!", { id: toastId });
       form.reset();
-      navigate("/dashboard/transactions");
+      navigate("/dashboard/my-transactions");
     } catch (err) {
       toast.error("Failed to send bonus", { id: toastId });
       console.error(err);

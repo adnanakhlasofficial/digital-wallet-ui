@@ -10,6 +10,14 @@ export const transactionApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["TRANSACTIONS"],
     }),
+    sendMoney: builder.mutation({
+      query: (payload) => ({
+        url: "/transaction/send-money",
+        method: "POST",
+        data: payload,
+      }),
+      invalidatesTags: ["TRANSACTIONS"],
+    }),
     getAllTransactions: builder.query({
       query: () => ({
         url: "/transaction/all",
@@ -17,8 +25,19 @@ export const transactionApi = baseApi.injectEndpoints({
       providesTags: ["TRANSACTIONS"],
       transformResponse: (response) => response.data,
     }),
+    getAllMyTransactions: builder.query({
+      query: () => ({
+        url: "/transaction/all/my",
+      }),
+      providesTags: ["TRANSACTIONS"],
+      transformResponse: (response) => response.data,
+    }),
   }),
 });
 
-export const { useSendBonusMutation, useGetAllTransactionsQuery } =
-  transactionApi;
+export const {
+  useSendBonusMutation,
+  useSendMoneyMutation,
+  useGetAllTransactionsQuery,
+  useGetAllMyTransactionsQuery,
+} = transactionApi;

@@ -1,9 +1,9 @@
+import MyTransactionsTable from "@/pages/dashboard/AllMyTransactions/MyTransactionsTable";
 import TransactionsTable from "@/pages/dashboard/AllTransactions/TransactionsTable";
 import UsersTable from "@/pages/dashboard/AllUsers/UsersTable";
 import WalletsTable from "@/pages/dashboard/AllWallets/WalletsTable";
 import CashIn from "@/pages/dashboard/CashIn";
 import CashOut from "@/pages/dashboard/CashOut";
-import MyTransactions from "@/pages/dashboard/MyTransactions";
 import SendBonus from "@/pages/dashboard/SendBonus";
 import SendMoney from "@/pages/dashboard/SendMoney";
 import { UserDetails } from "@/pages/dashboard/UserDetails/UserDetails";
@@ -79,7 +79,7 @@ export const sidebarItems: SidebarItem[] = [
       {
         title: "My Transaction History",
         url: "/dashboard/my-transactions",
-        Component: MyTransactions,
+        Component: MyTransactionsTable,
         show: true,
       },
     ],
