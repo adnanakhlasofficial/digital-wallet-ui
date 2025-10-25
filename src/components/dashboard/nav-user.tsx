@@ -30,7 +30,7 @@ import { toast } from "sonner";
 
 // Navigation links with paths and icons
 const dropdownLinks = [
-  { label: "Account", icon: BadgeCheck, path: "/account" },
+  { label: "Profile", icon: BadgeCheck, path: "/dashboard/profile" },
   { label: "Billing", icon: CreditCard, path: "/billing" },
   { label: "Notifications", icon: Bell, path: "/notifications" },
 ];

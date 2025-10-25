@@ -1,4 +1,4 @@
-import { LayoutDashboardIcon, LogOutIcon } from "lucide-react";
+import { LogOutIcon } from "lucide-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -11,16 +11,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { menuItems } from "@/constraints/RoutesLinks";
+import { authApi, useLogoutMutation } from "@/redux/features/auth/auth.api";
+import { useAppDispatch } from "@/redux/hook";
+import type { IUser } from "@/types";
 import { createInitials } from "@/utils/createInitials";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
-import type { IUser } from "@/types";
-import { authApi, useLogoutMutation } from "@/redux/features/auth/auth.api";
-import { useAppDispatch } from "@/redux/hook";
-
-const menuItems = [
-  { icon: LayoutDashboardIcon, label: "Dashboard", href: "/dashboard" },
-];
 
 interface IProps {
   user: IUser;
@@ -60,10 +57,10 @@ export default function UserMenu({ user }: IProps) {
       </DropdownMenuTrigger>
       <DropdownMenuContent className="p-2" align="end">
         <DropdownMenuLabel className="flex min-w-0 flex-col">
-          <span className="truncate text-sm font-medium text-foreground">
+          <span className="text-foreground truncate text-sm font-medium">
             {user?.name}
           </span>
-          <span className="truncate text-xs font-normal text-muted-foreground">
+          <span className="text-muted-foreground truncate text-xs font-normal">
             {user?.email}
           </span>
         </DropdownMenuLabel>
@@ -84,7 +81,7 @@ export default function UserMenu({ user }: IProps) {
         <DropdownMenuSeparator />
 
         <DropdownMenuItem
-          className="flex items-center gap-2 w-full text-left"
+          className="flex w-full items-center gap-2 text-left"
           onClick={handleLogout}
         >
           <LogOutIcon size={16} className="opacity-60" aria-hidden="true" />

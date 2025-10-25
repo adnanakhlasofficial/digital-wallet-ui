@@ -3,6 +3,7 @@ import {
   HelpCircleIcon,
   HomeIcon,
   InfoIcon,
+  LayoutDashboardIcon,
   PhoneIcon,
   SparklesIcon,
 } from "lucide-react";
@@ -68,4 +69,8 @@ export const authRoutes = [
     title: "Sign Up",
     icon: "📝",
   },
+];
+
+export const menuItems = [
+  { icon: LayoutDashboardIcon, label: "Profile", href: "/dashboard/profile" },
 ];

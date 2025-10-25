@@ -1,3 +1,4 @@
+import Profile from "@/pages/dashboard/Profile";
 import MyTransactionsTable from "@/pages/dashboard/AllMyTransactions/MyTransactionsTable";
 import TransactionsTable from "@/pages/dashboard/AllTransactions/TransactionsTable";
 import UsersTable from "@/pages/dashboard/AllUsers/UsersTable";
@@ -34,6 +35,12 @@ export const sidebarItems: SidebarItem[] = [
     title: "User Management",
     icon: Users,
     items: [
+      {
+        title: "Account",
+        url: "/dashboard/profile",
+        Component: Profile,
+        show: false,
+      },
       {
         title: "All Users",
         url: "/dashboard/users",
