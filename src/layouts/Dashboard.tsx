@@ -39,7 +39,7 @@ export default function Dashboard() {
             </div>
           </div>
         </header>
-        <div className="grid grow grid-cols-1 grid-rows-1 p-4">
+        <div className="grid grid-cols-1 grid-rows-1 p-4">
           <Outlet />
         </div>
       </SidebarInset>
