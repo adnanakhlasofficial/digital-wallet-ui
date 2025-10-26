@@ -1,4 +1,3 @@
-import LoadingMotion from "@/components/shared/LoadingMotion";
 import {
   Card,
   CardContent,
@@ -6,6 +5,14 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 import {
   Table,
   TableBody,
@@ -15,22 +22,29 @@ import {
 } from "@/components/ui/table";
 import { useGetAllTransactionsQuery } from "@/redux/features/transaction/transaction.api";
 
-import { Coins } from "lucide-react";
-import TransactionRow from "./TransactionRow";
-import type { ITransaction } from "@/types";
 import TableSkeleton from "@/components/shared/TableSkeleton";
+import type { ITransaction } from "@/types";
+import { handleNextPage, handlePrevPage } from "@/utils/pagination";
+import { Coins } from "lucide-react";
+import { useState } from "react";
+import TransactionRow from "./TransactionRow";
 
 export default function TransactionsTable() {
-  const { data, isLoading } = useGetAllTransactionsQuery({});
+  const [queries, setQueries] = useState({ limit: 5, currentPage: 1 });
+  const { data, isLoading } = useGetAllTransactionsQuery(queries);
 
   if (isLoading) return <TableSkeleton />;
 
-  const transactions = data as ITransaction[];
+  const transactions = (data?.data as ITransaction[]) || [];
+  const meta = data?.meta || {};
 
+  const pagination = Array.from({ length: meta.totalPages }, (_, i) => i + 1);
   const totalAmount = transactions.reduce(
     (sum, trx) => sum + (trx.amount || 0),
     0,
   );
+
+  console.log(queries);
 
   return (
     <Card className="border-border bg-card h-fit w-full gap-0 border p-0 shadow-md">
@@ -91,6 +105,34 @@ export default function TransactionsTable() {
             ))}
           </TableBody>
         </Table>
+
+        <div className="border-border border-t px-6 py-4">
+          <Pagination>
+            <PaginationContent className="flex items-center justify-between gap-4">
+              <PaginationItem
+                onClick={() => handlePrevPage(queries, setQueries)}
+              >
+                <PaginationPrevious />
+              </PaginationItem>
+
+              {pagination.map((page) => (
+                <PaginationItem key={page}>
+                  <PaginationLink isActive={page === meta.currentPage}>
+                    {page}
+                  </PaginationLink>
+                </PaginationItem>
+              ))}
+
+              <PaginationItem
+                onClick={() =>
+                  handleNextPage(queries, setQueries, meta.totalPages)
+                }
+              >
+                <PaginationNext />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
+        </div>
       </CardContent>
     </Card>
   );

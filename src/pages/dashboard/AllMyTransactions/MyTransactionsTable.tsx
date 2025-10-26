@@ -1,6 +1,5 @@
 import TableSkeleton from "@/components/shared/TableSkeleton";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -8,6 +7,14 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 import {
   Table,
   TableBody,
@@ -20,50 +27,21 @@ import { useGetAllMyTransactionsQuery } from "@/redux/features/transaction/trans
 import type { ITransaction } from "@/types";
 import { formatCurrency } from "@/utils/formatCurrency";
 import { getTransactionType } from "@/utils/getTransactionType";
+import { handleNextPage, handlePrevPage } from "@/utils/pagination";
 import { format } from "date-fns";
-import { AlertTriangle, Coins, RefreshCcw } from "lucide-react";
+import { Coins } from "lucide-react";
+import { useState } from "react";
 
 export default function MyTransactionsTable() {
-  const {
-    data: transactionsData,
-    isLoading,
-    isError,
-    refetch,
-  } = useGetAllMyTransactionsQuery({});
+  const [queries, setQueries] = useState({ limit: 5, currentPage: 1 });
+  const { data, isLoading } = useGetAllMyTransactionsQuery(queries);
 
   if (isLoading) return <TableSkeleton />;
 
-  if (isError) {
-    return (
-      <div className="flex min-h-[300px] flex-col items-center justify-center text-center">
-        <AlertTriangle className="text-destructive mb-3 h-10 w-10" />
-        <p className="text-destructive mb-2 text-lg font-semibold">
-          Failed to load transactions
-        </p>
-        <p className="text-muted-foreground mb-4 text-sm">
-          {"Something went wrong while fetching data."}
-        </p>
-        <Button onClick={refetch} variant="outline" className="gap-2">
-          <RefreshCcw className="h-4 w-4" />
-          Try Again
-        </Button>
-      </div>
-    );
-  }
-
-  const transactions = (transactionsData as ITransaction[]) || [];
-
-  if (transactions.length === 0) {
-    return (
-      <div className="flex min-h-[300px] flex-col items-center justify-center text-center">
-        <Coins className="text-muted-foreground mb-3 h-10 w-10" />
-        <p className="text-muted-foreground text-lg font-medium">
-          No transactions found
-        </p>
-      </div>
-    );
-  }
-
+  const transactions = (data?.data as ITransaction[]) || [];
+  const meta = data?.meta;
+  console.log(data);
+  const pagination = Array.from({ length: meta.totalPages }, (_, i) => i + 1);
   const totalAmount = transactions.reduce(
     (sum, trx) => sum + (trx.amount || 0),
     0,
@@ -183,6 +161,34 @@ export default function MyTransactionsTable() {
             ))}
           </TableBody>
         </Table>
+
+        <div className="border-border border-t px-6 py-4">
+          <Pagination>
+            <PaginationContent className="flex items-center justify-between gap-4">
+              <PaginationItem
+                onClick={() => handlePrevPage(queries, setQueries)}
+              >
+                <PaginationPrevious />
+              </PaginationItem>
+
+              {pagination.map((page) => (
+                <PaginationItem key={page}>
+                  <PaginationLink isActive={page === meta.currentPage}>
+                    {page}
+                  </PaginationLink>
+                </PaginationItem>
+              ))}
+
+              <PaginationItem
+                onClick={() =>
+                  handleNextPage(queries, setQueries, meta.totalPages)
+                }
+              >
+                <PaginationNext />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
+        </div>
       </CardContent>
     </Card>
   );

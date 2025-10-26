@@ -35,18 +35,18 @@ export const transactionApi = baseApi.injectEndpoints({
       invalidatesTags: ["TRANSACTIONS"],
     }),
     getAllTransactions: builder.query({
-      query: () => ({
+      query: (query) => ({
         url: "/transaction/all",
+        params: query,
       }),
       providesTags: ["TRANSACTIONS"],
-      transformResponse: (response) => response.data,
     }),
     getAllMyTransactions: builder.query({
-      query: () => ({
+      query: (query) => ({
         url: "/transaction/all/my",
+        params: query,
       }),
       providesTags: ["TRANSACTIONS"],
-      transformResponse: (response) => response.data,
     }),
   }),
 });
