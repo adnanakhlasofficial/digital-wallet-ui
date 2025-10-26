@@ -41,7 +41,7 @@ export default function SignInForm() {
     try {
       await login(values).unwrap();
       toast.success("Login success", { id: toastId });
-      navigate("/dashboard");
+      navigate("/dashboard/profile");
     } catch (err) {
       toast.error("Failed to login", { id: toastId });
       console.error(err);

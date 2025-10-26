@@ -14,44 +14,55 @@ import {
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
 import { sidebarItems } from "@/constraints/DashboardLinks";
+import { UserRoles } from "@/constraints/UserRoles";
+import type { IUser } from "@/types";
 import { ChevronRight } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 
-export default function SidebarNavigation() {
+export default function SidebarNavigation({ user }: { user: IUser }) {
   const location = useLocation();
 
   return (
     <SidebarGroup>
       <SidebarGroupLabel>Platform</SidebarGroupLabel>
       <SidebarMenu>
-        {sidebarItems.map(({ title, icon: Icon, items }) => (
-          <Collapsible
-            key={title}
-            asChild
-            defaultOpen
-            className="group/collapsible"
-          >
-            <SidebarMenuItem>
-              {/* Parent Menu Item */}
-              <CollapsibleTrigger asChild>
-                <SidebarMenuButton className="flex items-center gap-2">
-                  <Icon className="h-4 w-4" />
-                  <span>{title}</span>
-                  <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
-                </SidebarMenuButton>
-              </CollapsibleTrigger>
+        {sidebarItems.map(({ title, icon: Icon, items }) => {
+          // filter subitems based on role + show
+          const visibleItems =
+            items?.filter(
+              (subItem) =>
+                (subItem.role === UserRoles.ALL ||
+                  subItem.role === user.role) &&
+                subItem.show,
+            ) ?? [];
 
-              {/* Sub Menu Items */}
-              {items && (
+          // if no visible subitems, skip rendering this parent
+          if (visibleItems.length === 0) return null;
+
+          return (
+            <Collapsible
+              key={title}
+              asChild
+              defaultOpen
+              className="group/collapsible"
+            >
+              <SidebarMenuItem>
+                {/* Parent Menu Item */}
+                <CollapsibleTrigger asChild>
+                  <SidebarMenuButton className="flex items-center gap-2">
+                    <Icon className="h-4 w-4" />
+                    <span>{title}</span>
+                    <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                  </SidebarMenuButton>
+                </CollapsibleTrigger>
+
+                {/* Sub Menu Items */}
                 <CollapsibleContent>
                   <SidebarMenuSub>
-                    {items.map((subItem) => {
+                    {visibleItems.map((subItem) => {
                       const isActive = location.pathname === subItem.url;
                       return (
-                        <SidebarMenuSubItem
-                          className={!subItem.show ? "hidden" : ""}
-                          key={subItem.title}
-                        >
+                        <SidebarMenuSubItem key={subItem.title}>
                           <SidebarMenuSubButton asChild isActive={isActive}>
                             <Link to={subItem.url}>
                               <span>{subItem.title}</span>
@@ -62,10 +73,10 @@ export default function SidebarNavigation() {
                     })}
                   </SidebarMenuSub>
                 </CollapsibleContent>
-              )}
-            </SidebarMenuItem>
-          </Collapsible>
-        ))}
+              </SidebarMenuItem>
+            </Collapsible>
+          );
+        })}
       </SidebarMenu>
     </SidebarGroup>
   );

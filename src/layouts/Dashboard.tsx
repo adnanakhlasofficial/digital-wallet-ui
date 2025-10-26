@@ -19,6 +19,8 @@ export default function Dashboard() {
 
   if (!user) return <Navigate to={"/signin"} state={pathname} />;
 
+  if (pathname === "/dashboard") return <Navigate to={"/dashboard/profile"} />;
+
   return (
     <SidebarProvider>
       <AppSidebar user={user} />

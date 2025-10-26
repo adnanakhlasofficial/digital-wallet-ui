@@ -53,7 +53,7 @@ export function AppSidebar({ user, ...props }: IProps) {
         </SidebarMenuButton>
       </SidebarHeader>
       <SidebarContent>
-        <SidebarNavigation />
+        <SidebarNavigation user={user} />
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={navUser} />

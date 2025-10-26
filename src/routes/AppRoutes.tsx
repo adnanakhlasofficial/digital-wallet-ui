@@ -6,6 +6,10 @@ import { Toaster } from "@/components/ui/sonner";
 import NotFound from "@/pages/NotFound";
 import Dashboard from "@/layouts/Dashboard";
 import { sidebarItems } from "@/constraints/DashboardLinks";
+import { UserRoles } from "@/constraints/UserRoles";
+import AdminLayout from "@/layouts/AdminLayout";
+import AgentLayout from "@/layouts/AgentLayout";
+import UserLayout from "@/layouts/UserLayout";
 
 export default function AppRoutes() {
   return (
@@ -28,9 +32,36 @@ export default function AppRoutes() {
         {/* Dashboard Routes */}
         <Route path="/dashboard" element={<Dashboard />}>
           {sidebarItems.map((section) =>
-            section.items.map((route) => (
-              <Route path={route.url} Component={route.Component} />
-            ))
+            section.items.map((route) => {
+              // Dashboard Global Routes
+              if (route.role === UserRoles.ALL) {
+                return <Route path={route.url} Component={route.Component} />;
+              }
+              // Dashboard Admin Routes
+              else if (route.role === UserRoles.ADMIN) {
+                return (
+                  <Route element={<AdminLayout />}>
+                    <Route path={route.url} Component={route.Component} />
+                  </Route>
+                );
+              }
+              // Dashboard Agent Routes
+              else if (route.role === UserRoles.AGENT) {
+                return (
+                  <Route element={<AgentLayout />}>
+                    <Route path={route.url} Component={route.Component} />
+                  </Route>
+                );
+              }
+              // Dashboard User Routes
+              else if (route.role === UserRoles.USER) {
+                return (
+                  <Route element={<UserLayout />}>
+                    <Route path={route.url} Component={route.Component} />
+                  </Route>
+                );
+              }
+            }),
           )}
         </Route>
 
@@ -39,7 +70,7 @@ export default function AppRoutes() {
       </Routes>
 
       {/* Toaster */}
-      <Toaster />
+      <Toaster richColors />
     </div>
   );
 }

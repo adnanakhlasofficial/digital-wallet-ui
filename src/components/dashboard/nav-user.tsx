@@ -1,10 +1,4 @@
-import {
-  BadgeCheck,
-  Bell,
-  ChevronsUpDown,
-  CreditCard,
-  LogOutIcon,
-} from "lucide-react";
+import { ChevronsUpDown, HomeIcon, LogOutIcon, UserIcon } from "lucide-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -22,17 +16,18 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { createInitials } from "@/utils/createInitials";
-import { Link, useNavigate } from "react-router-dom";
 import { authApi, useLogoutMutation } from "@/redux/features/auth/auth.api";
 import { useAppDispatch } from "@/redux/hook";
+import { createInitials } from "@/utils/createInitials";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
 // Navigation links with paths and icons
 const dropdownLinks = [
-  { label: "Profile", icon: BadgeCheck, path: "/dashboard/profile" },
-  { label: "Billing", icon: CreditCard, path: "/billing" },
-  { label: "Notifications", icon: Bell, path: "/notifications" },
+  { label: "Home", icon: HomeIcon, path: "/" },
+  { label: "Profile", icon: UserIcon, path: "/dashboard/profile" },
+  // { label: "Billing", icon: CreditCard, path: "/billing" },
+  // { label: "Notifications", icon: Bell, path: "/notifications" },
 ];
 
 export function NavUser({

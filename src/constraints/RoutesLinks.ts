@@ -71,6 +71,6 @@ export const authRoutes = [
   },
 ];
 
-export const menuItems = [
-  { icon: LayoutDashboardIcon, label: "Profile", href: "/dashboard/profile" },
+export const userNav = [
+  { icon: LayoutDashboardIcon, label: "Dashboard", href: "/dashboard/profile" },
 ];

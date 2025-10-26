@@ -1,5 +1,6 @@
 export type TWalletStatus = "Active" | "Blocked" | "Suspended";
 export type TUserStatus = "Admin" | "User" | "Agent";
+
 export type TTransactionType =
   | "Send Bonus"
   | "Send Money"

@@ -18,6 +18,7 @@ import { useUserMeQuery } from "@/redux/features/auth/auth.api";
 import { useSetUserVerificationStatusMutation } from "@/redux/features/user/user.api";
 import type { IUser } from "@/types";
 import { toast } from "sonner";
+import { UserRoles } from "@/constraints/UserRoles";
 
 interface IProps {
   user: IUser;
@@ -50,7 +51,7 @@ export default function UserActions({ user }: IProps) {
 
   return (
     <div className="flex justify-center gap-2">
-      {data?.role === "Admin" && (
+      {data?.role === UserRoles.ADMIN && (
         <>
           {/* View Button */}
           <Button
@@ -77,7 +78,7 @@ export default function UserActions({ user }: IProps) {
         </>
       )}
 
-      {data?.role === "User" && user.role === "User" && (
+      {data?.role === UserRoles.USER && user.role === UserRoles.USER && (
         <>
           {/* Send Money */}
           <Button
@@ -92,7 +93,7 @@ export default function UserActions({ user }: IProps) {
         </>
       )}
 
-      {data?.role === "User" && user.role === "Agent" && (
+      {data?.role === UserRoles.USER && user.role === UserRoles.AGENT && (
         <>
           {/* Send Money */}
           <Button
@@ -107,7 +108,7 @@ export default function UserActions({ user }: IProps) {
         </>
       )}
 
-      {data?.role === "Admin" && (
+      {data?.role === UserRoles.ADMIN && (
         <>
           {/* Restrict / Unrestrict Button */}
           <AlertDialog>

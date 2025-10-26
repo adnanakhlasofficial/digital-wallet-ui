@@ -11,7 +11,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { menuItems } from "@/constraints/RoutesLinks";
+import { userNav } from "@/constraints/RoutesLinks";
 import { authApi, useLogoutMutation } from "@/redux/features/auth/auth.api";
 import { useAppDispatch } from "@/redux/hook";
 import type { IUser } from "@/types";
@@ -68,7 +68,7 @@ export default function UserMenu({ user }: IProps) {
         <DropdownMenuSeparator />
 
         <DropdownMenuGroup>
-          {menuItems.map(({ icon: Icon, label, href }, index) => (
+          {userNav.map(({ icon: Icon, label, href }, index) => (
             <DropdownMenuItem key={index} asChild className="w-50">
               <Link to={href} className="flex items-center gap-2">
                 <Icon size={16} className="opacity-60" aria-hidden="true" />

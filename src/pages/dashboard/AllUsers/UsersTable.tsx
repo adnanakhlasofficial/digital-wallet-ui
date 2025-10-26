@@ -17,13 +17,18 @@ import { useGetAllUsersQuery } from "@/redux/features/user/user.api";
 import type { IUser } from "@/types";
 import { User } from "lucide-react";
 import UserRow from "./UserRow";
+import { useUserMeQuery } from "@/redux/features/auth/auth.api";
+import { UserRoles } from "@/constraints/UserRoles";
 
 export default function UsersTable() {
-  const { data, isLoading } = useGetAllUsersQuery({});
+  const { data: allUser, isLoading: allUsersLoading } = useGetAllUsersQuery({});
+  const { data: currentUser, isLoading: currentUserLoading } = useUserMeQuery(
+    {},
+  );
 
-  if (isLoading) return <TableSkeleton />;
+  if (allUsersLoading || currentUserLoading) return <TableSkeleton />;
 
-  const users = data as IUser[];
+  const users = (allUser as IUser[]) || [];
   const verifiedUsers = users?.filter((u) => u?.isVerified)?.length;
 
   return (
@@ -54,18 +59,22 @@ export default function UsersTable() {
               <TableHead className="text-foreground font-semibold">
                 Contact
               </TableHead>
-              <TableHead className="text-foreground font-semibold">
-                NID
-              </TableHead>
-              <TableHead className="text-foreground font-semibold">
-                DOB
-              </TableHead>
-              <TableHead className="text-foreground font-semibold">
-                Verified
-              </TableHead>
-              <TableHead className="text-foreground font-semibold">
-                Created
-              </TableHead>
+              {currentUser.role === UserRoles.ADMIN && (
+                <>
+                  <TableHead className="text-foreground font-semibold">
+                    NID
+                  </TableHead>
+                  <TableHead className="text-foreground font-semibold">
+                    DOB
+                  </TableHead>
+                  <TableHead className="text-foreground font-semibold">
+                    Verified
+                  </TableHead>
+                  <TableHead className="text-foreground font-semibold">
+                    Created
+                  </TableHead>
+                </>
+              )}
               <TableHead className="text-foreground pr-6 text-center font-semibold">
                 Actions
               </TableHead>
@@ -74,7 +83,7 @@ export default function UsersTable() {
 
           <TableBody>
             {users.map((user) => (
-              <UserRow key={user.email} user={user} />
+              <UserRow key={user.email} user={user} currentUser={currentUser} />
             ))}
           </TableBody>
         </Table>

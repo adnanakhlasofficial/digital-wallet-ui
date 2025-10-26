@@ -44,8 +44,9 @@ import { format } from "date-fns";
 import type { DropdownNavProps, DropdownProps } from "react-day-picker";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import { UserRoles } from "@/constraints/UserRoles";
 
-const userRoles = ["Admin", "User", "Agent"];
+const userRoles = Object.values(UserRoles);
 
 const signUpSchema = z.object({
   name: z.string().min(3, "Name must be at least 3 characters"),
@@ -64,7 +65,7 @@ const signUpSchema = z.object({
     .optional()
     .refine(
       (val) => !val || val instanceof File || typeof val === "string",
-      "Invalid file format"
+      "Invalid file format",
     ),
   nid: z
     .string()
@@ -88,7 +89,7 @@ export default function SignUpForm() {
       phone: "",
       password: "",
       profilePicture: null,
-      role: "User",
+      role: UserRoles.USER,
       nid: "",
       address: "",
       dateOfBirth: undefined,
@@ -97,7 +98,7 @@ export default function SignUpForm() {
 
   const handleCalendarChange = (
     _value: string | number,
-    _e: React.ChangeEventHandler<HTMLSelectElement>
+    _e: React.ChangeEventHandler<HTMLSelectElement>,
   ) => {
     const _event = {
       target: {
@@ -143,7 +144,7 @@ export default function SignUpForm() {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="grid grid-cols-1 md:grid-cols-2 gap-5"
+          className="grid grid-cols-1 gap-5 md:grid-cols-2"
         >
           {/* Name */}
           <FormField
@@ -156,10 +157,10 @@ export default function SignUpForm() {
                 </FormLabel>
                 <FormControl>
                   <div className="relative">
-                    <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <User className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
                     <Input
                       placeholder="Full name"
-                      className="pl-10 h-11"
+                      className="h-11 pl-10"
                       {...field}
                     />
                   </div>
@@ -180,11 +181,11 @@ export default function SignUpForm() {
                 </FormLabel>
                 <FormControl>
                   <div className="relative">
-                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <Mail className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
                     <Input
                       type="email"
                       placeholder="you@example.com"
-                      className="pl-10 h-11"
+                      className="h-11 pl-10"
                       {...field}
                     />
                   </div>
@@ -205,10 +206,10 @@ export default function SignUpForm() {
                 </FormLabel>
                 <FormControl>
                   <div className="relative">
-                    <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <Phone className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
                     <Input
                       placeholder="017XXXXXXXX"
-                      className="pl-10 h-11"
+                      className="h-11 pl-10"
                       {...field}
                     />
                   </div>
@@ -229,13 +230,13 @@ export default function SignUpForm() {
                 </FormLabel>
                 <FormControl>
                   <div className="relative">
-                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <Lock className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
                     <Input
                       type="password"
                       placeholder="•••••"
                       maxLength={5}
                       inputMode="numeric"
-                      className="pl-10 h-11 tracking-widest"
+                      className="h-11 pl-10 tracking-widest"
                       {...field}
                       onChange={(e) => {
                         const val = e.target.value
@@ -288,10 +289,10 @@ export default function SignUpForm() {
                 </FormLabel>
                 <FormControl>
                   <div className="relative">
-                    <IdCard className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <IdCard className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
                     <Input
                       placeholder="10-digit NID"
-                      className="pl-10 h-11"
+                      className="h-11 pl-10"
                       maxLength={10}
                       inputMode="numeric"
                       {...field}
@@ -349,7 +350,7 @@ export default function SignUpForm() {
                       <PopoverTrigger className="justify-start" asChild>
                         <Button
                           variant="outline"
-                          className="w-full pl-10 text-left h-11 text-muted-foreground active:text-muted-foreground"
+                          className="text-muted-foreground active:text-muted-foreground h-11 w-full pl-10 text-left"
                         >
                           <CalendarIcon className="h-4 w-4" />
                           {field.value
@@ -386,7 +387,7 @@ export default function SignUpForm() {
                                     if (props.onChange) {
                                       handleCalendarChange(
                                         value,
-                                        props.onChange
+                                        props.onChange,
                                       );
                                     }
                                   }}
@@ -428,10 +429,10 @@ export default function SignUpForm() {
                   <FormLabel>Address</FormLabel>
                   <FormControl>
                     <div className="relative">
-                      <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                      <MapPin className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
                       <Input
                         placeholder="Your address"
-                        className="pl-10 h-11"
+                        className="h-11 pl-10"
                         {...field}
                       />
                     </div>
@@ -446,7 +447,7 @@ export default function SignUpForm() {
           <div className="md:col-span-2">
             <Button
               type="submit"
-              className="w-full h-11"
+              className="h-11 w-full"
               disabled={form.formState.isSubmitting}
             >
               {form.formState.isSubmitting ? (
