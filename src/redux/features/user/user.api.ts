@@ -3,11 +3,11 @@ import { baseApi } from "@/redux/baseApi";
 export const userApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getAllUsers: builder.query({
-      query: () => ({
+      query: (query) => ({
         url: "/user/all",
+        params: query,
       }),
       providesTags: ["USER"],
-      transformResponse: (response) => response.data,
     }),
     getSingleUser: builder.query({
       query: ({ email }) => ({

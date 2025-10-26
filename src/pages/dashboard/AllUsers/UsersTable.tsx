@@ -7,6 +7,14 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
+import {
   Table,
   TableBody,
   TableHead,
@@ -19,16 +27,24 @@ import { User } from "lucide-react";
 import UserRow from "./UserRow";
 import { useUserMeQuery } from "@/redux/features/auth/auth.api";
 import { UserRoles } from "@/constraints/UserRoles";
+import { useState } from "react";
+import { handleNextPage, handlePrevPage } from "@/utils/pagination";
 
 export default function UsersTable() {
-  const { data: allUser, isLoading: allUsersLoading } = useGetAllUsersQuery({});
+  const [queries, setQueries] = useState({ limit: 5, currentPage: 1 });
   const { data: currentUser, isLoading: currentUserLoading } = useUserMeQuery(
     {},
   );
+  const { data: AllUser, isLoading: allUsersLoading } =
+    useGetAllUsersQuery(queries);
 
   if (allUsersLoading || currentUserLoading) return <TableSkeleton />;
 
-  const users = (allUser as IUser[]) || [];
+  const meta = AllUser?.meta || {};
+
+  const pagination = Array.from({ length: meta.totalPages }, (_, i) => i + 1);
+
+  const users = (AllUser?.data as IUser[]) || [];
   const verifiedUsers = users?.filter((u) => u?.isVerified)?.length;
 
   return (
@@ -87,6 +103,34 @@ export default function UsersTable() {
             ))}
           </TableBody>
         </Table>
+
+        <div className="border-border border-t px-6 py-4">
+          <Pagination>
+            <PaginationContent className="flex items-center justify-between gap-4">
+              <PaginationItem
+                onClick={() => handlePrevPage(queries, setQueries)}
+              >
+                <PaginationPrevious />
+              </PaginationItem>
+
+              {pagination.map((page) => (
+                <PaginationItem key={page}>
+                  <PaginationLink isActive={page === meta.currentPage}>
+                    {page}
+                  </PaginationLink>
+                </PaginationItem>
+              ))}
+
+              <PaginationItem
+                onClick={() =>
+                  handleNextPage(queries, setQueries, meta.totalPages)
+                }
+              >
+                <PaginationNext />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
+        </div>
       </CardContent>
     </Card>
   );

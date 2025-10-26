@@ -44,8 +44,6 @@ export default function TransactionsTable() {
     0,
   );
 
-  console.log(queries);
-
   return (
     <Card className="border-border bg-card h-fit w-full gap-0 border p-0 shadow-md">
       <CardHeader className="border-border bg-muted/50 m-0 block rounded-tl-xl rounded-tr-xl border-b p-6">

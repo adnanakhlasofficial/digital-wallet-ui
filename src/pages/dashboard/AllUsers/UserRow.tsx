@@ -49,7 +49,6 @@ export default function UserRow({ user, currentUser }: IProps) {
 
       {currentUser?.role === UserRoles.ADMIN && (
         <>
-          {" "}
           {/* 🪪 NID */}
           <TableCell className="text-foreground text-sm">
             {user.nid || "—"}
