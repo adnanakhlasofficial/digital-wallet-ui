@@ -1,4 +1,4 @@
-import LoadingMotion from "@/components/shared/LoadingMotion";
+import TableSkeleton from "@/components/shared/TableSkeleton";
 import {
   Card,
   CardContent,
@@ -6,6 +6,14 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 import {
   Table,
   TableBody,
@@ -17,17 +25,26 @@ import { useGetAllWalletsQuery } from "@/redux/features/wallet/wallet.api";
 import type { IWallet } from "@/types";
 import { formatCurrency } from "@/utils/formatCurrency";
 import { Wallet } from "lucide-react";
+import { useState } from "react";
 import WalletRow from "./WalletRow";
-import TableSkeleton from "@/components/shared/TableSkeleton";
+import { handleNextPage, handlePrevPage } from "@/utils/pagination";
 
 export default function WalletsTable() {
+  const [queries, setQueries] = useState({ limit: 5, currentPage: 1 });
   const { data, isLoading } = useGetAllWalletsQuery({});
 
   if (isLoading) return <TableSkeleton />;
 
-  const wallets = data as IWallet[];
-  const totalBalance = wallets.reduce((sum, wallet) => sum + wallet.balance, 0);
-  const activeWallets = wallets.filter((w) => w.status === "Active").length;
+  const wallets = (data?.data as IWallet[]) || [];
+  const totalBalance = wallets.reduce(
+    (sum, wallet) => sum + wallet?.balance,
+    0,
+  );
+
+  const meta = data?.meta || {};
+  const pagination = Array.from({ length: meta.totalPages }, (_, i) => i + 1);
+
+  const activeWallets = wallets?.filter((w) => w?.status === "Active")?.length;
 
   return (
     <Card className="border-border bg-card h-fit w-full gap-0 border p-0 shadow-md">
@@ -79,6 +96,34 @@ export default function WalletsTable() {
             ))}
           </TableBody>
         </Table>
+
+        <div className="border-border border-t px-6 py-4">
+          <Pagination>
+            <PaginationContent className="flex items-center justify-between gap-4">
+              <PaginationItem
+                onClick={() => handlePrevPage(queries, setQueries)}
+              >
+                <PaginationPrevious />
+              </PaginationItem>
+
+              {pagination.map((page) => (
+                <PaginationItem key={page}>
+                  <PaginationLink isActive={page === meta.currentPage}>
+                    {page}
+                  </PaginationLink>
+                </PaginationItem>
+              ))}
+
+              <PaginationItem
+                onClick={() =>
+                  handleNextPage(queries, setQueries, meta.totalPages)
+                }
+              >
+                <PaginationNext />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
+        </div>
       </CardContent>
     </Card>
   );

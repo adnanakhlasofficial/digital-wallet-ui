@@ -86,7 +86,12 @@ export default function SendBonus() {
       <Card className="border-border bg-card text-card-foreground w-full max-w-md rounded-2xl border shadow-md">
         <CardHeader className="space-y-2 text-center">
           <CardTitle className="text-foreground text-2xl font-semibold">
-            Send Bonus (<span className="text-base">{info.name}</span>)
+            Send Bonus{" "}
+            {info.name && (
+              <>
+                (<span className="text-base">{info.name}</span>)
+              </>
+            )}
           </CardTitle>
           <CardDescription className="text-muted-foreground">
             Enter recipient's phone number and bonus amount.

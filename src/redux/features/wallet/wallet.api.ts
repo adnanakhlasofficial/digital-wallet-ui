@@ -3,11 +3,11 @@ import { baseApi } from "@/redux/baseApi";
 export const walletApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getAllWallets: builder.query({
-      query: () => ({
+      query: (query) => ({
         url: "/wallet/all",
+        params: query,
       }),
       providesTags: ["WALLET"],
-      transformResponse: (response) => response.data,
     }),
     getSingleWallet: builder.query({
       query: ({ phone }) => ({
