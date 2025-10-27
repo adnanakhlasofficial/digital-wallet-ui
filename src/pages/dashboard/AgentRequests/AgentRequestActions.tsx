@@ -10,18 +10,42 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import type { IAgentRequest } from "@/types";
+import {
+  useAcceptAgentRequestMutation,
+  useRejectAgentRequestMutation,
+} from "@/redux/features/agent/agent.api";
+import type { ApiErrorResponse, IAgentRequest } from "@/types";
 import { CheckCircle2, XCircle } from "lucide-react";
+import { toast } from "sonner";
 
 interface IProps {
   request: IAgentRequest;
 }
 
 export default function AgentRequestActions({ request }: IProps) {
-  const isDisabled = request.status !== "Pending";
+  const [acceptRequest] = useAcceptAgentRequestMutation();
+  const [rejectRequest] = useRejectAgentRequestMutation();
 
-  const handleAccept = () => {};
-  const handleReject = () => {};
+  const handleAccept = async (email: string) => {
+    try {
+      await acceptRequest(request?.email || email).unwrap();
+      toast.success("Agent Request Approved");
+    } catch (err) {
+      const error = err as ApiErrorResponse;
+      toast.error(error.data.message);
+      console.error(error);
+    }
+  };
+  const handleReject = async (email: string) => {
+    try {
+      await rejectRequest(request?.email || email).unwrap();
+      toast.success("Agent Request Rejected");
+    } catch (err) {
+      const error = err as ApiErrorResponse;
+      toast.error(error.data.message);
+      console.error(error);
+    }
+  };
 
   return (
     <div className="flex justify-end gap-2">
@@ -32,7 +56,6 @@ export default function AgentRequestActions({ request }: IProps) {
             variant="outline"
             size="sm"
             className="border-border w-28 text-green-600 hover:bg-green-100/70 dark:hover:bg-green-900/20"
-            disabled={isDisabled}
           >
             <CheckCircle2 className="mr-1 h-4 w-4" />
             Accept
@@ -51,7 +74,7 @@ export default function AgentRequestActions({ request }: IProps) {
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
             <AlertDialogAction
-              onClick={handleAccept}
+              onClick={() => handleAccept(request.email)}
               className="bg-green-600 text-white hover:bg-green-700"
             >
               Confirm
@@ -67,7 +90,6 @@ export default function AgentRequestActions({ request }: IProps) {
             variant="outline"
             size="sm"
             className="border-border w-28 text-rose-600 hover:bg-rose-100/70 dark:hover:bg-rose-900/20"
-            disabled={isDisabled}
           >
             <XCircle className="mr-1 h-4 w-4" />
             Reject
@@ -86,7 +108,7 @@ export default function AgentRequestActions({ request }: IProps) {
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
             <AlertDialogAction
-              onClick={handleReject}
+              onClick={() => handleReject(request.email)}
               className="bg-rose-600 text-white hover:bg-rose-700"
             >
               Confirm
