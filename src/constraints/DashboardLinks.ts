@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import type { ComponentType } from "react";
 import { UserRoles } from "./UserRoles";
+import AgentRequestsTable from "@/pages/dashboard/AgentRequests/AgentRequestTable";
 
 interface SidebarSubItem {
   title: string;
@@ -52,6 +53,13 @@ export const sidebarItems: SidebarItem[] = [
         Component: UsersTable,
         show: true,
         role: UserRoles.ALL,
+      },
+      {
+        title: "Agent Request",
+        url: "/dashboard/agent-requests",
+        Component: AgentRequestsTable,
+        show: true,
+        role: UserRoles.ADMIN,
       },
       {
         title: "User Details",

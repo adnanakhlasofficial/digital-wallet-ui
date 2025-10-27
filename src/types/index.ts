@@ -2,6 +2,7 @@ import type { AxiosError } from "axios";
 
 export type TWalletStatus = "Active" | "Blocked" | "Suspended";
 export type TUserStatus = "Admin" | "User" | "Agent";
+export type TAgentRequestStatus = "Pending" | "Accepted" | "Rejected";
 
 export type TTransactionType =
   | "Send Bonus"
@@ -68,3 +69,12 @@ export interface ApiErrorResponse {
 }
 
 export type ModifiedAxiosError = AxiosError<ApiErrorResponse>;
+
+export interface IAgentRequest {
+  _id: string;
+  email: string;
+  message: string;
+  status: TAgentRequestStatus;
+  createdAt: string;
+  updatedAt: string;
+}
