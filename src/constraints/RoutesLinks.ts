@@ -11,10 +11,10 @@ import {
 import Home from "../pages/public/Home/Home";
 import SignIn from "../pages/auth/SignIn";
 import SignUp from "../pages/auth/SignUp";
-import Features from "@/pages/public/Features";
-import Contact from "@/pages/public/Contact";
-import FAQ from "@/pages/public/FAQ";
-import Pricing from "@/pages/public/Pricing";
+import Features from "@/pages/public/Features/Features";
+import Contact from "@/pages/public/Contact/Contact";
+import FAQ from "@/pages/public/FAQ/FAQ";
+import Pricing from "@/pages/public/Pricing/Pricing";
 import About from "@/pages/public/About/About";
 
 export const publicRoutes = [
