@@ -1,3 +1,5 @@
+import type { AxiosError } from "axios";
+
 export type TWalletStatus = "Active" | "Blocked" | "Suspended";
 export type TUserStatus = "Admin" | "User" | "Agent";
 
@@ -54,3 +56,15 @@ export interface ITransaction {
   senderName: string;
   receiverName: string;
 }
+
+export interface ApiErrorResponse {
+  status: number; // top-level HTTP status (e.g. 500)
+  data: {
+    success: boolean;
+    message: string;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    error: any;
+  };
+}
+
+export type ModifiedAxiosError = AxiosError<ApiErrorResponse>;

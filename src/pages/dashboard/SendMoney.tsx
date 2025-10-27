@@ -25,6 +25,7 @@ import { toast } from "sonner";
 import { useGetWalletMeQuery } from "@/redux/features/wallet/wallet.api";
 import MoneyOperationSkeleton from "@/components/shared/MoneyOperationSkeleton";
 import { useSendMoneyMutation } from "@/redux/features/transaction/transaction.api";
+import type { ApiErrorResponse } from "@/types";
 
 const sendMoneySchema = z.object({
   phone: z
@@ -74,8 +75,11 @@ export default function SendMoney() {
       form.reset();
       navigate("/dashboard/my-transactions");
     } catch (err) {
-      toast.error("Failed to send money", { id: toastId });
-      console.error(err);
+      const error = err as ApiErrorResponse;
+      toast.error(error?.data?.message || "Failed to send money", {
+        id: toastId,
+      });
+      console.error(error);
     }
   };
 

@@ -30,6 +30,7 @@ import { toast } from "sonner";
 import { useGetWalletMeQuery } from "@/redux/features/wallet/wallet.api";
 import MoneyOperationSkeleton from "@/components/shared/MoneyOperationSkeleton";
 import { useCashOutMutation } from "@/redux/features/transaction/transaction.api";
+import type { ApiErrorResponse } from "@/types";
 
 const cashOutSchema = z.object({
   customerPhone: z
@@ -79,8 +80,11 @@ export default function CashOut() {
       form.reset();
       navigate("/dashboard/my-transactions");
     } catch (err) {
-      toast.error("Failed to complete cash out", { id: toastId });
-      console.error(err);
+      const error = err as ApiErrorResponse;
+      toast.error(error?.data?.message || "Failed to complete cash out", {
+        id: toastId,
+      });
+      console.error(error);
     }
   };
 

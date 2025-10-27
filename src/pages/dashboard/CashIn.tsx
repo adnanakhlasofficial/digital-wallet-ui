@@ -30,6 +30,7 @@ import { toast } from "sonner";
 import { useGetWalletMeQuery } from "@/redux/features/wallet/wallet.api";
 import MoneyOperationSkeleton from "@/components/shared/MoneyOperationSkeleton";
 import { useCashInMutation } from "@/redux/features/transaction/transaction.api";
+import type { ApiErrorResponse } from "@/types";
 
 const cashInSchema = z.object({
   agentPhone: z
@@ -79,8 +80,11 @@ export default function CashIn() {
       form.reset();
       navigate("/dashboard/my-transactions");
     } catch (err) {
-      toast.error("Failed to complete cash in", { id: toastId });
-      console.error(err);
+      const error = err as ApiErrorResponse;
+      toast.error(error?.data?.message || "Failed to complete cash in", {
+        id: toastId,
+      });
+      console.error(error);
     }
   };
 

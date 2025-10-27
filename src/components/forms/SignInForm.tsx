@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { useLoginMutation } from "@/redux/features/auth/auth.api";
+import type { ApiErrorResponse } from "@/types";
 import { Loader2Icon, LockIcon, LogInIcon, MailIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
@@ -43,8 +44,11 @@ export default function SignInForm() {
       toast.success("Login success", { id: toastId });
       navigate("/dashboard/profile");
     } catch (err) {
-      toast.error("Failed to login", { id: toastId });
-      console.error(err);
+      const error = err as ApiErrorResponse;
+      toast.error(error?.data?.message || "Failed to login", {
+        id: toastId,
+      });
+      console.error(error);
     }
   };
 

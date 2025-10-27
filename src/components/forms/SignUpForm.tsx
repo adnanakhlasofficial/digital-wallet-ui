@@ -45,6 +45,7 @@ import type { DropdownNavProps, DropdownProps } from "react-day-picker";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { UserRoles } from "@/constraints/UserRoles";
+import type { ApiErrorResponse } from "@/types";
 
 const userRoles = Object.values(UserRoles);
 
@@ -134,8 +135,11 @@ export default function SignUpForm() {
       toast.success("Register success", { id: toastId });
       navigate("/signin");
     } catch (err) {
-      console.error(err);
-      toast.error("Something went wrong.", { id: toastId });
+      const error = err as ApiErrorResponse;
+      toast.error(error?.data?.message || "Signup failed. Please try again.", {
+        id: toastId,
+      });
+      console.error(error);
     }
   };
 

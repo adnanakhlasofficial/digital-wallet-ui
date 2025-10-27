@@ -25,6 +25,7 @@ import { toast } from "sonner";
 import { useGetWalletMeQuery } from "@/redux/features/wallet/wallet.api";
 import MoneyOperationSkeleton from "@/components/shared/MoneyOperationSkeleton";
 import { useSendBonusMutation } from "@/redux/features/transaction/transaction.api";
+import type { ApiErrorResponse } from "@/types";
 
 const sendBonusSchema = z.object({
   phone: z
@@ -68,14 +69,16 @@ export default function SendBonus() {
     const toastId = toast.loading("Sending bonus...");
 
     try {
-      // Simulate API call
-      await sendBonus(payload);
+      await sendBonus(payload).unwrap();
       toast.success("Bonus sent successfully!", { id: toastId });
       form.reset();
       navigate("/dashboard/my-transactions");
     } catch (err) {
-      toast.error("Failed to send bonus", { id: toastId });
-      console.error(err);
+      const error = err as ApiErrorResponse;
+      toast.error(error?.data?.message || "Failed to send bonus", {
+        id: toastId,
+      });
+      console.error(error);
     }
   };
 
