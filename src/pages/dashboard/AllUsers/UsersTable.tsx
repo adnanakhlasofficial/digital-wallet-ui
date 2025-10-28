@@ -75,6 +75,9 @@ export default function UsersTable() {
               <TableHead className="text-foreground font-semibold">
                 Contact
               </TableHead>
+              <TableHead className="text-foreground font-semibold">
+                Verified
+              </TableHead>
               {currentUser.role === UserRoles.ADMIN && (
                 <>
                   <TableHead className="text-foreground font-semibold">
@@ -82,9 +85,6 @@ export default function UsersTable() {
                   </TableHead>
                   <TableHead className="text-foreground font-semibold">
                     DOB
-                  </TableHead>
-                  <TableHead className="text-foreground font-semibold">
-                    Verified
                   </TableHead>
                   <TableHead className="text-foreground font-semibold">
                     Created

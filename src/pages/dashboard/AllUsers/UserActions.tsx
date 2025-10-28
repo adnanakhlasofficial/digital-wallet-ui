@@ -70,6 +70,7 @@ export default function UserActions({ user }: IProps) {
             onClick={() => setSearchParams("/send-bonus")}
             variant="outline"
             size="sm"
+            disabled={!user.isVerified}
             className="border-border text-foreground hover:bg-primary/10 hover:text-primary w-40"
           >
             <Coins className="mr-1 h-4 w-4" />
@@ -85,6 +86,7 @@ export default function UserActions({ user }: IProps) {
             onClick={() => setSearchParams("/send-money")}
             variant="outline"
             size="sm"
+            disabled={!user?.isVerified || !data?.isVerified}
             className="border-border text-foreground hover:bg-primary/10 hover:text-primary w-40"
           >
             <Coins className="mr-1 h-4 w-4" />
@@ -100,10 +102,43 @@ export default function UserActions({ user }: IProps) {
             onClick={() => setSearchParams("/cash-out")}
             variant="outline"
             size="sm"
+            disabled={!user?.isVerified || !data?.isVerified}
             className="border-border text-foreground hover:bg-primary/10 hover:text-primary w-40"
           >
             <Coins className="mr-1 h-4 w-4" />
             Cash Out
+          </Button>
+        </>
+      )}
+
+      {data?.role === UserRoles.AGENT && user.role === UserRoles.USER && (
+        <>
+          {/* Send Money */}
+          <Button
+            onClick={() => setSearchParams("/cash-in")}
+            variant="outline"
+            size="sm"
+            disabled={!user?.isVerified || !data?.isVerified}
+            className="border-border text-foreground hover:bg-primary/10 hover:text-primary w-40"
+          >
+            <Coins className="mr-1 h-4 w-4" />
+            Cash In
+          </Button>
+        </>
+      )}
+
+      {data?.role === UserRoles.AGENT && user.role === UserRoles.AGENT && (
+        <>
+          {/* Agent Transfer */}
+          <Button
+            onClick={() => setSearchParams("/agent-transfer")}
+            variant="outline"
+            size="sm"
+            disabled={!user?.isVerified || !data?.isVerified}
+            className="border-border text-foreground hover:bg-primary/10 hover:text-primary w-40"
+          >
+            <Coins className="mr-1 h-4 w-4" />
+            Agent Transfer
           </Button>
         </>
       )}

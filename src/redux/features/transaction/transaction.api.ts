@@ -34,6 +34,14 @@ export const transactionApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["TRANSACTIONS"],
     }),
+    agentTransfer: builder.mutation({
+      query: (payload) => ({
+        url: "/transaction/agent-transfer",
+        method: "POST",
+        data: payload,
+      }),
+      invalidatesTags: ["TRANSACTIONS"],
+    }),
     getAllTransactions: builder.query({
       query: (query) => ({
         url: "/transaction/all",
@@ -56,6 +64,7 @@ export const {
   useSendMoneyMutation,
   useCashInMutation,
   useCashOutMutation,
+  useAgentTransferMutation,
   useGetAllTransactionsQuery,
   useGetAllMyTransactionsQuery,
 } = transactionApi;

@@ -12,4 +12,6 @@ export const getTransactionType = (type: TTransactionType) =>
       "bg-indigo-100 text-indigo-800 dark:bg-indigo-900/20 dark:text-indigo-300 border-indigo-300/40",
     type === "Cash Out" &&
       "bg-rose-100 text-rose-800 dark:bg-rose-900/20 dark:text-rose-300 border-rose-300/40",
+    type === "Agent Transfer" &&
+      "bg-amber-100 text-amber-800 dark:bg-amber-900/20 dark:text-amber-300 border-amber-300/40",
   );

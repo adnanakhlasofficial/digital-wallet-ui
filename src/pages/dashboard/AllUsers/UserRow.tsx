@@ -47,6 +47,21 @@ export default function UserRow({ user, currentUser }: IProps) {
         </div>
       </TableCell>
 
+      {/* ✅ Verified */}
+      <TableCell>
+        {user.isVerified ? (
+          <Badge className="border bg-emerald-100 text-emerald-800 dark:bg-emerald-900/20 dark:text-emerald-300">
+            <CheckCircle2 className="mr-1 h-4 w-4" />
+            Verified
+          </Badge>
+        ) : (
+          <Badge className="border bg-rose-100 text-rose-800 dark:bg-rose-900/20 dark:text-rose-300">
+            <XCircle className="mr-1 h-4 w-4" />
+            Unverified
+          </Badge>
+        )}
+      </TableCell>
+
       {currentUser?.role === UserRoles.ADMIN && (
         <>
           {/* 🪪 NID */}
@@ -57,20 +72,7 @@ export default function UserRow({ user, currentUser }: IProps) {
           <TableCell className="text-muted-foreground text-sm">
             {formatDate(user.dateOfBirth, "PP")}
           </TableCell>
-          {/* ✅ Verified */}
-          <TableCell>
-            {user.isVerified ? (
-              <Badge className="border bg-emerald-100 text-emerald-800 dark:bg-emerald-900/20 dark:text-emerald-300">
-                <CheckCircle2 className="mr-1 h-4 w-4" />
-                Verified
-              </Badge>
-            ) : (
-              <Badge className="border bg-rose-100 text-rose-800 dark:bg-rose-900/20 dark:text-rose-300">
-                <XCircle className="mr-1 h-4 w-4" />
-                Unverified
-              </Badge>
-            )}
-          </TableCell>
+
           {/* 📅 Created */}
           <TableCell className="text-muted-foreground text-sm">
             {format(user.createdAt, "PP")}

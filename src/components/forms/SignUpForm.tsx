@@ -39,7 +39,10 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { uploadImage } from "@/lib/cloudinary";
-import { useRegisterMutation } from "@/redux/features/auth/auth.api";
+import {
+  useLoginMutation,
+  useRegisterMutation,
+} from "@/redux/features/auth/auth.api";
 import { format } from "date-fns";
 import type { DropdownNavProps, DropdownProps } from "react-day-picker";
 import { useNavigate } from "react-router-dom";
@@ -47,7 +50,7 @@ import { toast } from "sonner";
 import { UserRoles } from "@/constraints/UserRoles";
 import type { ApiErrorResponse } from "@/types";
 
-const userRoles = Object.values(UserRoles);
+const userRoles = [UserRoles.AGENT, UserRoles.USER];
 
 const signUpSchema = z.object({
   name: z.string().min(3, "Name must be at least 3 characters"),
@@ -81,6 +84,7 @@ type CreateUserFormData = z.infer<typeof signUpSchema>;
 export default function SignUpForm() {
   const navigate = useNavigate();
   const [register] = useRegisterMutation();
+  const [login] = useLoginMutation();
 
   const form = useForm<CreateUserFormData>({
     resolver: zodResolver(signUpSchema),
@@ -116,7 +120,6 @@ export default function SignUpForm() {
     };
     if (values.profilePicture) {
       const toastId = toast.loading("Image uploading...");
-
       const res = await uploadImage(values.profilePicture as File);
       toast.success("Image upload successfully.", { id: toastId });
       payload.profilePicture = res as string;
@@ -132,8 +135,12 @@ export default function SignUpForm() {
     try {
       const res = await register(payload).unwrap();
       console.log(res);
+      await login({
+        email: payload.email,
+        password: payload.password,
+      }).unwrap();
+      navigate("/dashboard/profile");
       toast.success("Register success", { id: toastId });
-      navigate("/signin");
     } catch (err) {
       const error = err as ApiErrorResponse;
       toast.error(error?.data?.message || "Signup failed. Please try again.", {
@@ -261,7 +268,7 @@ export default function SignUpForm() {
             control={form.control}
             name="role"
             render={({ field }) => (
-              <FormItem className="sr-only">
+              <FormItem>
                 <FormLabel>Role</FormLabel>
                 <FormControl>
                   <Select onValueChange={field.onChange} value={field.value}>
@@ -424,7 +431,7 @@ export default function SignUpForm() {
             />
           </div>
           {/* Address */}
-          <div>
+          <div className="col-span-full">
             <FormField
               control={form.control}
               name="address"

@@ -20,6 +20,7 @@ import {
 import type { ComponentType } from "react";
 import { UserRoles } from "./UserRoles";
 import AgentRequestsTable from "@/pages/dashboard/AgentRequests/AgentRequestTable";
+import AgentTransfer from "@/pages/dashboard/AgentTransfer";
 
 interface SidebarSubItem {
   title: string;
@@ -141,6 +142,13 @@ export const sidebarItems: SidebarItem[] = [
         Component: CashOut,
         show: true,
         role: UserRoles.USER,
+      },
+      {
+        title: "Agent Transfer",
+        url: "/dashboard/agent-transfer",
+        Component: AgentTransfer,
+        show: true,
+        role: UserRoles.AGENT,
       },
     ],
   },

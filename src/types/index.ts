@@ -8,7 +8,8 @@ export type TTransactionType =
   | "Send Bonus"
   | "Send Money"
   | "Cash In"
-  | "Cash Out";
+  | "Cash Out"
+  | "Agent Transfer";
 
 export interface IUserWallet {
   balance: number;
