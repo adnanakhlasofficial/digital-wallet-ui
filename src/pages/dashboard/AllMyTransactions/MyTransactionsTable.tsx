@@ -7,6 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 import {
   Pagination,
   PaginationContent,
@@ -33,14 +34,17 @@ import { Coins } from "lucide-react";
 import { useState } from "react";
 
 export default function MyTransactionsTable() {
-  const [queries, setQueries] = useState({ limit: 5, currentPage: 1 });
+  const [queries, setQueries] = useState({
+    limit: 5,
+    currentPage: 1,
+    search: "",
+  });
   const { data, isLoading } = useGetAllMyTransactionsQuery(queries);
 
   if (isLoading) return <TableSkeleton />;
 
   const transactions = (data?.data as ITransaction[]) || [];
   const meta = data?.meta;
-  console.log(data);
   const pagination = Array.from({ length: meta.totalPages }, (_, i) => i + 1);
   const totalAmount = transactions.reduce(
     (sum, trx) => sum + (trx.amount || 0),
@@ -50,18 +54,33 @@ export default function MyTransactionsTable() {
   return (
     <Card className="border-border bg-card h-fit w-full gap-0 border p-0 shadow-md">
       <CardHeader className="border-border bg-muted/50 m-0 block rounded-tl-xl rounded-tr-xl border-b p-6">
-        <div className="flex items-start gap-3">
-          <div className="bg-primary/10 rounded-lg p-2.5 shadow-sm">
-            <Coins className="text-primary h-5 w-5" />
+        <div className="flex items-center justify-between gap-3">
+          <div className="flex items-start gap-3">
+            <div className="bg-primary/10 rounded-lg p-2.5 shadow-sm">
+              <Coins className="text-primary h-5 w-5" />
+            </div>
+            <div>
+              <CardTitle className="text-foreground text-2xl">
+                All Transactions
+              </CardTitle>
+              <CardDescription className="text-muted-foreground mt-1">
+                Total: {transactions.length} transactions • Total Amount: ৳
+                {totalAmount.toLocaleString()}
+              </CardDescription>
+            </div>
           </div>
-          <div>
-            <CardTitle className="text-foreground text-2xl">
-              My Transactions
-            </CardTitle>
-            <CardDescription className="text-muted-foreground mt-1">
-              Total: {transactions.length} transactions • Total Amount: ৳
-              {totalAmount.toLocaleString()}
-            </CardDescription>
+
+          {/* 🔍 Search Input */}
+          <div className="flex items-center">
+            <Input
+              type="text"
+              placeholder="Search transactions..."
+              value={queries.search}
+              onChange={(e) =>
+                setQueries((prev) => ({ ...prev, search: e.target.value }))
+              }
+              className="w-64"
+            />
           </div>
         </div>
       </CardHeader>

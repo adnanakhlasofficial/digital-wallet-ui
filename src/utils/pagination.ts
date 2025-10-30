@@ -1,6 +1,7 @@
 interface Queries {
   limit: number;
   currentPage: number;
+  search: string;
 }
 
 export const handlePrevPage = (
