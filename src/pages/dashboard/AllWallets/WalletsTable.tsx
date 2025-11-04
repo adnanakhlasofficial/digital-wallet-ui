@@ -30,7 +30,11 @@ import WalletRow from "./WalletRow";
 import { handleNextPage, handlePrevPage } from "@/utils/pagination";
 
 export default function WalletsTable() {
-  const [queries, setQueries] = useState({ limit: 5, currentPage: 1 });
+  const [queries, setQueries] = useState({
+    limit: 5,
+    currentPage: 1,
+    search: "",
+  });
   const { data, isLoading } = useGetAllWalletsQuery({});
 
   if (isLoading) return <TableSkeleton />;

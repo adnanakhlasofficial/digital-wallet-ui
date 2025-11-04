@@ -31,7 +31,7 @@ import { useState } from "react";
 import { handleNextPage, handlePrevPage } from "@/utils/pagination";
 
 export default function UsersTable() {
-  const [queries, setQueries] = useState({ limit: 5, currentPage: 1 });
+  const [queries, setQueries] = useState({ limit: 5, currentPage: 1, search: "" });
   const { data: currentUser, isLoading: currentUserLoading } = useUserMeQuery(
     {},
   );

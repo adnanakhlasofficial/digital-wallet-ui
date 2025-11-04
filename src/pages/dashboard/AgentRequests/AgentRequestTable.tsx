@@ -33,7 +33,7 @@ import AgentRequestActions from "./AgentRequestActions";
 import { handleNextPage, handlePrevPage } from "@/utils/pagination";
 
 export default function AgentRequestsTable() {
-  const [queries, setQueries] = useState({ limit: 5, currentPage: 1 });
+  const [queries, setQueries] = useState({ limit: 5, currentPage: 1, search: "" });
   const { data, isLoading } = useGetAllAgentRequestsQuery(queries);
 
   if (isLoading) return <TableSkeleton />;
